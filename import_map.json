@@ -1,0 +1,7 @@
+{
+  "imports": {
+    "bitmap": "https://deno.land/x/bitmap@v1.0.1/mod.ts",
+    "std/": "https://deno.land/std@0.153.0/",
+    "zod": "https://deno.land/x/zod@v3.18.0/mod.ts"
+  }
+}
