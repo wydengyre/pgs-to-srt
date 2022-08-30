@@ -6,6 +6,10 @@ format.
 Because doing the conversion requires performing error-prone OCR on the image-based PGS format, it
 also has tooling to help you extract the individual subtitle images.
 
+A simple, web-based front-end to this tool is freely available
+at [pgs-to-srt.com](https://pgs-to-srt.com). It does not involve uploading of any files, performing
+the entire conversion in the browser.
+
 ## Installation
 
 The main prerequisite is [deno](https://deno.land). Otherwise, you'll need some standard CLI build
