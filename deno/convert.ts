@@ -1,4 +1,4 @@
-// Copyright (C) 2022 Wyden and Gyre, LLC
+// Copyright (C) 2023 Wyden and Gyre, LLC
 import { pipeline } from "../lib/pipeline.ts";
 import { writeAll } from "std/streams/conversion.ts";
 import { render } from "./progress.ts";

@@ -1,4 +1,4 @@
-// Copyright (C) 2022 Wyden and Gyre, LLC
+// Copyright (C) 2023 Wyden and Gyre, LLC
 import { Buffer } from "std/io/buffer.ts";
 
 class Context {

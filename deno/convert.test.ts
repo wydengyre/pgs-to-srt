@@ -1,4 +1,4 @@
-// Copyright (C) 2022 Wyden and Gyre, LLC
+// Copyright (C) 2023 Wyden and Gyre, LLC
 import { runConvert } from "./convert.ts";
 import { Buffer } from "std/io/buffer.ts";
 import { assertEquals, assertMatch } from "std/testing/asserts.ts";

@@ -1,4 +1,4 @@
-// Copyright (C) 2022 Wyden and Gyre, LLC
+// Copyright (C) 2023 Wyden and Gyre, LLC
 export async function* enumerate<T>(
   es: AsyncIterable<T>,
 ): AsyncIterable<[number, T]> {

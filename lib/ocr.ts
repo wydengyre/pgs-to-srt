@@ -1,4 +1,4 @@
-// Copyright (C) 2022 Wyden and Gyre, LLC
+// Copyright (C) 2023 Wyden and Gyre, LLC
 import { tee } from "std/async/mod.ts";
 import { Pool } from "./async.ts";
 import { Unrendered } from "./transform.ts";

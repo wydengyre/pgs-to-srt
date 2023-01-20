@@ -1,4 +1,4 @@
-// Copyright (C) 2022 Wyden and Gyre, LLC
+// Copyright (C) 2023 Wyden and Gyre, LLC
 import { deadline, deferred } from "std/async/mod.ts";
 
 export const ERROR_WHILE_MAPPING_MESSAGE = "Threw while mapping.";

@@ -1,4 +1,4 @@
-// Copyright (C) 2022 Wyden and Gyre, LLC
+// Copyright (C) 2023 Wyden and Gyre, LLC
 import { assertStrictEquals } from "https://deno.land/std@0.97.0/testing/asserts.ts";
 import { writeAll } from "std/streams/conversion.ts";
 import { assertEquals } from "std/testing/asserts.ts";

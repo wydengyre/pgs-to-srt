@@ -1,4 +1,4 @@
-// Copyright (C) 2022 Wyden and Gyre, LLC
+// Copyright (C) 2023 Wyden and Gyre, LLC
 import { parse } from "./parse.ts";
 import { iterOds, packetize, pgsSchema } from "./transform.ts";
 import { tee } from "std/async/tee.ts";

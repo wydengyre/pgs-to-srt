@@ -1,4 +1,4 @@
-// Copyright (C) 2022 Wyden and Gyre, LLC
+// Copyright (C) 2023 Wyden and Gyre, LLC
 import { Buffer } from "std/io/buffer.ts";
 import { getTestPath } from "../test/path.ts";
 import { extractImage } from "./extractImage.ts";
