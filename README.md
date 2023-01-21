@@ -19,7 +19,7 @@ tools, such as `make` and `curl`.
 2. Enter the resulting directory: `cd pgs-to-srt`
 3. Install dependencies: `make deps`
 4. (Optional, but recommended for ease of use) Install the main
-   script: `deno install --allow-read deno/pgs-to-srt.ts`
+   script: `deno install --allow-read --import-map import_map.json deno/pgs-to-srt.ts`
 
 Once installed, the onscreen instructions will give you tips for adding the tool to your `PATH`.
 

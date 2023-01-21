@@ -4,16 +4,24 @@ import { assertEquals, assertStrictEquals } from "std/testing/asserts.ts";
 import { getTestPath } from "../test/path.ts";
 
 const mainPath = import.meta.resolve("./pgs-to-srt.ts");
-
+const importMapPath = import.meta.resolve("../import_map.json");
 Deno.test("install and test core functionality", async (t) => {
   const execPath = Deno.execPath();
   const tempDir = await Deno.makeTempDir();
   const td = new TextDecoder();
 
   await t.step("install", async () => {
-    const { code, stderr } = await Deno.spawn(execPath, {
-      args: ["install", "--allow-read", "--root", tempDir, mainPath],
-    });
+    const { code, stderr } = await new Deno.Command(execPath, {
+      args: [
+        "install",
+        "--allow-read",
+        "--import-map",
+        importMapPath,
+        "--root",
+        tempDir,
+        mainPath,
+      ],
+    }).output();
     const err = td.decode(stderr);
     assertStrictEquals(code, 0, err);
   });
@@ -27,9 +35,9 @@ Deno.test("install and test core functionality", async (t) => {
 
     const expectedSrt = await Deno.readFile(expectedSrtPath);
 
-    const { code, stdout, stderr } = await Deno.spawn(installedPath, {
+    const { code, stdout, stderr } = await new Deno.Command(installedPath, {
       args: [trainedDataPath, inSupPath],
-    });
+    }).output();
     const err = td.decode(stderr);
     assertStrictEquals(code, 0, err);
 
@@ -43,9 +51,9 @@ Deno.test("install and test core functionality", async (t) => {
 
     const outBmp = await Deno.readFile(outBmpPath);
 
-    const { code, stdout, stderr } = await Deno.spawn(installedPath, {
+    const { code, stdout, stderr } = await new Deno.Command(installedPath, {
       args: [IMAGE_INDEX.toString(10), inSupPath],
-    });
+    }).output();
     const err = td.decode(stderr);
     assertStrictEquals(code, 0, err);
     assertEquals(stdout, outBmp);
