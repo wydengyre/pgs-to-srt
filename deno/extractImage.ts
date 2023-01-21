@@ -4,7 +4,7 @@ import { parse } from "../lib/parse.ts";
 import { render } from "../lib/render.ts";
 import * as bitmap from "bitmap";
 import { BitmapBufferAPI } from "bitmap";
-import { writeAll } from "std/streams/conversion.ts";
+import { writeAll } from "std/streams/write_all.ts";
 
 export async function extractImage(
   sup: Uint8Array,

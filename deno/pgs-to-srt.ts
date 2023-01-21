@@ -1,5 +1,5 @@
 // Copyright (C) 2023 Wyden and Gyre, LLC
-import { readAll } from "std/streams/conversion.ts";
+import { readAll } from "std/streams/read_all.ts";
 import { extractImage } from "./extractImage.ts";
 import { runConvert } from "./convert.ts";
 

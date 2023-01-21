@@ -1,7 +1,7 @@
 // Copyright (C) 2023 Wyden and Gyre, LLC
 import { parse } from "../lib/parse.ts";
 import { packetize, pgsSchema } from "../lib/transform.ts";
-import { writeAll } from "std/streams/conversion.ts";
+import { writeAll } from "std/streams/write_all.ts";
 
 // chop a sup file down to X segment "packets". Useful for making test files
 
