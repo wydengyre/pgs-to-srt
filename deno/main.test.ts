@@ -2,7 +2,7 @@
 import { assertStrictEquals } from "https://deno.land/std@0.97.0/testing/asserts.ts";
 import { writeAll } from "std/streams/write_all.ts";
 import { assertEquals } from "std/testing/asserts.ts";
-import { getTestPath } from "../test/path.ts";
+import { getTestPath } from "./test-path.ts";
 
 const execPath = Deno.execPath();
 

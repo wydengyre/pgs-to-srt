@@ -13,7 +13,7 @@ clean:
 ci: ci-fmt lint deps test
 
 ci-fmt:
-    deno fmt --check src test
+    deno fmt --check deno test
 
 fmt:
     deno fmt deno test
@@ -29,7 +29,7 @@ deps:
     curl --show-error --location --fail {{tesseractWasmUrl}} --output {{tesseractWasmZipPath}}
     unzip -q -o -d {{tesseractWasmFilesPath}} {{tesseractWasmZipPath}}
 
-test: deps
+test:
 	deno test --unstable --allow-read --allow-write --allow-run deno
 
 build:
