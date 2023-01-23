@@ -2,7 +2,7 @@
 import { runConvert } from "./convert.ts";
 import { Buffer } from "std/io/buffer.ts";
 import { assertEquals, assertMatch } from "std/testing/asserts.ts";
-import { getTestPath } from "../test/path.ts";
+import {getTestPath} from "./test-path.ts";
 
 Deno.test("convert lostillusions.first100.en.sup", () => {
   return testConversion(

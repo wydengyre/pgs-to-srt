@@ -1,6 +1,6 @@
 // Copyright (C) 2023 Wyden and Gyre, LLC
 import { Buffer } from "std/io/buffer.ts";
-import { getTestPath } from "../test/path.ts";
+import { getTestPath } from "./test-path.ts";
 import { extractImage } from "./extractImage.ts";
 import { assertEquals } from "std/testing/asserts.ts";
 
