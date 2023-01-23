@@ -2,8 +2,13 @@
 import * as path from "std/path/mod.ts";
 import { assertEquals, assertStrictEquals } from "std/testing/asserts.ts";
 import { getTestPath } from "../deno/test-path.ts";
+import { getVar } from "../deno/buildvar.ts";
 
-const mainPath = import.meta.resolve("../deno/main.ts");
+/**
+ * Project must be built before running.
+ */
+
+const mainPath = import.meta.resolve(`../${getVar("deno-dist" as const)}`);
 const importMapPath = import.meta.resolve("../import_map.json");
 const installedBinName = "pgs-to-srt";
 Deno.test("install and test core functionality", async (t) => {

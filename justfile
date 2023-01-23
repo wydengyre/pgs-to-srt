@@ -4,6 +4,8 @@ tesseractWasmUrl := "https://github.com/wydengyre/tesseract-wasm/releases/downlo
 tesseractWasmZipPath := "build/tesseract-wasm.zip"
 tesseractWasmFilesPath := "deps/tesseract-wasm"
 
+denoDistFile := `deno run deno/buildvar.ts deno-dist`
+
 default:
     just --list --justfile {{justfile()}}
 
@@ -38,8 +40,10 @@ end-to-end-test:
 	deno test --check=all --unstable --allow-read --allow-write --allow-run deno-test
 
 build:
-    mkdir -p dist
-    deno bundle deno/main.ts dist/pgs-to-srt.js
+    #!/usr/bin/env sh
+    DENO_DIST_DIR=$(dirname {{denoDistFile}})
+    mkdir -p "$DENO_DIST_DIR"
+    deno bundle deno/main.ts {{denoDistFile}}
 
 docker-ci: clean docker-build-image docker-run-tests
 
