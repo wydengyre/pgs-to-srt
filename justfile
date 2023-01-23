@@ -29,7 +29,7 @@ deps:
     curl --show-error --location --fail {{tesseractWasmUrl}} --output {{tesseractWasmZipPath}}
     unzip -q -o -d {{tesseractWasmFilesPath}} {{tesseractWasmZipPath}}
 
-test: deps
+test:
 	deno test --unstable --allow-read --allow-write --allow-run deno
 
 build:
