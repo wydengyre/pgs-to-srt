@@ -10,6 +10,12 @@ default:
 clean:
 	rm -rf deps build
 
+fmt:
+    deno fmt deno test
+
+lint:
+    deno lint deno test
+
 deps:
     mkdir -p {{tesseractWasmFilesPath}} build
     curl --show-error --location --fail {{tesseractWasmUrl}} --output {{tesseractWasmZipPath}}
