@@ -2,8 +2,7 @@
 import { iterOds, packetize, pgsSchema } from "../lib/transform.ts";
 import { parse } from "../lib/parse.ts";
 import { render } from "../lib/render.ts";
-import * as bitmap from "bitmap";
-import { BitmapBufferAPI } from "bitmap";
+import * as bitmap from "../lib/bitmap.ts";
 import { writeAll } from "std/streams/write_all.ts";
 
 export async function extractImage(
@@ -28,7 +27,7 @@ export async function extractImage(
   // this will fail on big endian systems
   const bmpAbgr8 = new Uint8Array(bmpRgba32.buffer);
 
-  const bmpBuffer = BitmapBufferAPI.from(bmpAbgr8);
+  const bmpBuffer = bitmap.BitmapBufferAPI.from(bmpAbgr8);
   const bmp = bitmap.Encoder({
     width: rendered.width,
     height: rendered.height,
