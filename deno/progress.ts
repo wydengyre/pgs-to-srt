@@ -1,5 +1,5 @@
 // Copyright (C) 2023 Wyden and Gyre, LLC
-import { writeAll } from "std/streams/write_all.ts";
+import { writeAll    } from "std/streams/write_all.ts";
 
 export type Progress = {
   completed: number;
