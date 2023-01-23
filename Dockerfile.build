@@ -1,5 +1,5 @@
 FROM denoland/deno:alpine-1.29.4
-RUN apk add curl mkvtoolnix
+RUN apk add curl
 
 # install just
 RUN cd tmp \
