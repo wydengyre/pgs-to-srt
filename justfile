@@ -16,6 +16,9 @@ fmt:
 lint:
     deno lint deno test
 
+update-deps:
+    deno run -A https://deno.land/x/udd/main.ts import_map.json
+
 deps:
     mkdir -p {{tesseractWasmFilesPath}} build
     curl --show-error --location --fail {{tesseractWasmUrl}} --output {{tesseractWasmZipPath}}
