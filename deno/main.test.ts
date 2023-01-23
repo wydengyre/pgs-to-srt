@@ -6,7 +6,7 @@ import { getTestPath } from "../test/path.ts";
 
 const execPath = Deno.execPath();
 
-const runPath = import.meta.resolve("./pgs-to-srt.ts");
+const runPath = import.meta.resolve("./main.ts");
 
 Deno.test("fast convert lostillusions.first100.en.sup", () => {
   const inSupFileName = "lostillusions.first100.en.sup";

@@ -15,10 +15,10 @@ function fail(err?: string): never {
 }
 
 if (import.meta.main) {
-  await pgsToSrt(Deno.args, Deno.stdin, Deno.stdout, Deno.stderr);
+  await main(Deno.args, Deno.stdin, Deno.stdout, Deno.stderr);
 }
 
-async function pgsToSrt(
+async function main(
   args: string[],
   inReader: Deno.Reader,
   outWriter: Deno.Writer,

@@ -8,7 +8,7 @@ default:
     just --list --justfile {{justfile()}}
 
 clean:
-	rm -rf deps build
+	rm -rf deps build dist
 
 ci: ci-fmt lint deps test
 
@@ -31,6 +31,10 @@ deps:
 
 test: deps
 	deno test --unstable --allow-read --allow-write --allow-run deno
+
+build:
+    mkdir -p dist
+    deno bundle deno/main.ts dist/mkvsubs.js
 
 docker-ci: clean docker-build-image docker-run-tests
 

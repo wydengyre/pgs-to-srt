@@ -3,8 +3,9 @@ import * as path from "std/path/mod.ts";
 import { assertEquals, assertStrictEquals } from "std/testing/asserts.ts";
 import { getTestPath } from "../test/path.ts";
 
-const mainPath = import.meta.resolve("./pgs-to-srt.ts");
+const mainPath = import.meta.resolve("./main.ts");
 const importMapPath = import.meta.resolve("../import_map.json");
+const installedBinName = "pgs-to-srt";
 Deno.test("install and test core functionality", async (t) => {
   const execPath = Deno.execPath();
   const tempDir = await Deno.makeTempDir();
@@ -19,6 +20,8 @@ Deno.test("install and test core functionality", async (t) => {
         importMapPath,
         "--root",
         tempDir,
+        "--name",
+        installedBinName,
         mainPath,
       ],
     }).output();
@@ -26,7 +29,7 @@ Deno.test("install and test core functionality", async (t) => {
     assertStrictEquals(code, 0, err);
   });
 
-  const installedPath = path.resolve(tempDir, "bin/pgs-to-srt");
+  const installedPath = path.resolve(tempDir, `bin/${installedBinName}`);
 
   await t.step("convert", async () => {
     const trainedDataPath = getTestPath("eng.fast.traineddata");
