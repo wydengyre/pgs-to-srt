@@ -3,6 +3,8 @@ import { runConvert } from "./convert.ts";
 import { Buffer } from "std/io/buffer.ts";
 import { assertEquals, assertMatch } from "std/testing/asserts.ts";
 import { getTestPath } from "./test-path.ts";
+import env from "./conf.dev.json" assert { type: "json" };
+import { fromFileUrl } from "std/path/mod.ts";
 
 Deno.test("convert lostillusions.first100.en.sup", () => {
   return testConversion(
@@ -37,7 +39,13 @@ async function testConversion(
 
   const outBuffer = new Buffer();
   const errBuffer = new Buffer();
-  await runConvert(inSup, trainedDataPath, outBuffer, errBuffer);
+  await runConvert(inSup, {
+    trainedDataPath,
+    wasmPath: fromFileUrl(import.meta.resolve(env.wasmPath)),
+    workerPath: fromFileUrl(import.meta.resolve(env.workerPath)),
+    outWriter: outBuffer,
+    errWriter: errBuffer,
+  });
   const outBytes = outBuffer.bytes({ copy: false });
 
   assertEquals(outBytes, outSrt);

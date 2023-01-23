@@ -2,42 +2,34 @@
 import { pipeline } from "../lib/pipeline.ts";
 import { writeAll } from "std/streams/write_all.ts";
 import { render } from "./progress.ts";
-import { fromFileUrl } from "std/path/mod.ts";
+import { toFileUrl } from "std/path/mod.ts";
 
-const WASM_PATH = fromFileUrl(
-  import.meta.resolve("../deps/tesseract-wasm/tesseract-core.wasm"),
-);
-const WORKER_PATH = fromFileUrl(import.meta.resolve("../lib/worker.ts"));
-const WORKER_URL = new URL(WORKER_PATH, import.meta.url);
+export type Config = {
+  trainedDataPath: string;
+  wasmPath: string;
+  workerPath: string;
+  outWriter: Deno.Writer;
+  errWriter: Deno.Writer;
+};
 
 export async function runConvert(
   sup: Uint8Array,
-  trainedDataPath: string,
-  outWriter: Deno.Writer,
-  errWriter: Deno.Writer,
+  config: Config,
 ): Promise<void> {
   const [wasmBinary, trainedData] = await Promise.all([
-    Deno.readFile(WASM_PATH),
-    Deno.readFile(trainedDataPath),
+    Deno.readFile(config.wasmPath),
+    Deno.readFile(config.trainedDataPath),
   ]);
-  return runWithData(sup, wasmBinary, trainedData, outWriter, errWriter);
-}
 
-async function runWithData(
-  sup: Uint8Array,
-  wasmBinary: Uint8Array,
-  trainedData: Uint8Array,
-  outWriter: Deno.Writer,
-  errWriter: Deno.Writer,
-): Promise<void> {
-  const srtIter = pipeline(sup, WORKER_URL, wasmBinary, trainedData);
+  const workerUrl = toFileUrl(config.workerPath);
+  const srtIter = pipeline(sup, workerUrl, wasmBinary, trainedData);
   const te = new TextEncoder();
   let next = await srtIter.next();
   while (!next.done) {
     const [{ completed, total }, sub] = next.value;
     const bytes = te.encode(`${sub}\n`);
-    await writeAll(outWriter, bytes);
-    await render(errWriter, { completed, total });
+    await writeAll(config.outWriter, bytes);
+    await render(config.errWriter, { completed, total });
     next = await srtIter.next();
   }
 
@@ -48,6 +40,6 @@ async function runWithData(
       ? `\n${blankCount} blank subtitles at indices ${blanks.join(", ")}`
       : `\n one blank subtitle at index ${blanks[0]}`;
     const bytes = te.encode(`${warnStr}\n`);
-    await writeAll(errWriter, bytes);
+    await writeAll(config.errWriter, bytes);
   }
 }
