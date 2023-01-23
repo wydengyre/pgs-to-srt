@@ -10,6 +10,11 @@ default:
 clean:
 	rm -rf deps build
 
+ci: ci-fmt lint deps test
+
+ci-fmt:
+    deno fmt --check src test
+
 fmt:
     deno fmt deno test
 
