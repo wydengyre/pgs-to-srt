@@ -13,7 +13,7 @@ clean:
 ci: ci-fmt lint deps test
 
 ci-fmt:
-    deno fmt --check src test
+    deno fmt --check deno test
 
 fmt:
     deno fmt deno test

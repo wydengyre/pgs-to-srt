@@ -1,7 +1,7 @@
 // Copyright (C) 2023 Wyden and Gyre, LLC
 import * as path from "std/path/mod.ts";
 import { assertEquals, assertStrictEquals } from "std/testing/asserts.ts";
-import { getTestPath } from "../test/path.ts";
+import { getTestPath } from "./test-path.ts";
 
 const mainPath = import.meta.resolve("./main.ts");
 const importMapPath = import.meta.resolve("../import_map.json");
