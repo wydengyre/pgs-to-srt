@@ -31,3 +31,12 @@ deps:
 
 test: deps
 	deno test --unstable --allow-read --allow-write --allow-run deno
+
+docker-ci: clean docker-build-image docker-run-tests
+
+# build the docker image for building the project
+docker-build-image:
+    docker build -f Dockerfile.build -t pgs-to-srt-test .
+
+docker-run-tests:
+    docker run pgs-to-srt-test
