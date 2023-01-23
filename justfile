@@ -13,13 +13,13 @@ clean:
 ci: ci-fmt lint deps test
 
 ci-fmt:
-    deno fmt --check deno test
+    deno fmt --check deno test deno-test
 
 fmt:
-    deno fmt deno test
+    deno fmt deno test deno-test
 
 lint:
-    deno lint deno test
+    deno lint deno test deno-test
 
 update-deps:
     deno run -A https://deno.land/x/udd/main.ts import_map.json
@@ -29,12 +29,17 @@ deps:
     curl --show-error --location --fail {{tesseractWasmUrl}} --output {{tesseractWasmZipPath}}
     unzip -q -o -d {{tesseractWasmFilesPath}} {{tesseractWasmZipPath}}
 
-test:
-	deno test --unstable --allow-read --allow-write --allow-run deno
+test: unit-test end-to-end-test
+
+unit-test:
+	deno test --check=all --unstable --allow-read --allow-write --allow-run deno
+
+end-to-end-test:
+	deno test --check=all --unstable --allow-read --allow-write --allow-run deno-test
 
 build:
     mkdir -p dist
-    deno bundle deno/main.ts dist/mkvsubs.js
+    deno bundle deno/main.ts dist/pgs-to-srt.js
 
 docker-ci: clean docker-build-image docker-run-tests
 

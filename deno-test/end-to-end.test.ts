@@ -1,9 +1,9 @@
 // Copyright (C) 2023 Wyden and Gyre, LLC
 import * as path from "std/path/mod.ts";
 import { assertEquals, assertStrictEquals } from "std/testing/asserts.ts";
-import { getTestPath } from "./test-path.ts";
+import { getTestPath } from "../deno/test-path.ts";
 
-const mainPath = import.meta.resolve("./main.ts");
+const mainPath = import.meta.resolve("../deno/main.ts");
 const importMapPath = import.meta.resolve("../import_map.json");
 const installedBinName = "pgs-to-srt";
 Deno.test("install and test core functionality", async (t) => {
