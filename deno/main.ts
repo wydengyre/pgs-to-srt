@@ -1,6 +1,6 @@
 // Copyright (C) 2023 Wyden and Gyre, LLC
 import { readAll } from "std/streams/read_all.ts";
-import { extractImage } from "./extractImage.ts";
+import { extractImage } from "./extract-image.ts";
 import { runConvert } from "./convert.ts";
 
 const USAGE = "[LANGUAGE | SUBTITLE_INDEX]";
