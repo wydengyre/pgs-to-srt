@@ -2,34 +2,46 @@
 import * as path from "std/path/mod.ts";
 import { assertEquals, assertStrictEquals } from "std/testing/asserts.ts";
 import { getTestPath } from "../deno/test-path.ts";
+import { configPath, configVal } from "../deno/build-config.ts";
+import { run } from "../deno/build-util.ts";
 
-const mainPath = import.meta.resolve("../deno/main.ts");
+/**
+ * Project must be built before running.
+ */
+
+const bundleZipPath = configPath("bundleZip");
 const importMapPath = import.meta.resolve("../import_map.json");
 const installedBinName = "pgs-to-srt";
+
 Deno.test("install and test core functionality", async (t) => {
   const execPath = Deno.execPath();
-  const tempDir = await Deno.makeTempDir();
+  const tempUnzipDir = await Deno.makeTempDir();
+  const tempInstallDir = await Deno.makeTempDir();
   const td = new TextDecoder();
 
   await t.step("install", async () => {
-    const { code, stderr } = await new Deno.Command(execPath, {
-      args: [
-        "install",
-        "--allow-read",
-        "--import-map",
-        importMapPath,
-        "--root",
-        tempDir,
-        "--name",
-        installedBinName,
-        mainPath,
-      ],
-    }).output();
-    const err = td.decode(stderr);
-    assertStrictEquals(code, 0, err);
+    await run("unzip", "-d", tempUnzipDir, bundleZipPath);
+    const zipDirName = path.basename(bundleZipPath, ".zip");
+    const unzippedMainPath = path.join(
+      tempUnzipDir,
+      zipDirName,
+      configVal("mainBundle"),
+    );
+    await run(
+      execPath,
+      "install",
+      "--allow-read",
+      "--import-map",
+      importMapPath,
+      "--root",
+      tempInstallDir,
+      "--name",
+      installedBinName,
+      unzippedMainPath,
+    );
   });
 
-  const installedPath = path.resolve(tempDir, `bin/${installedBinName}`);
+  const installedPath = path.resolve(tempInstallDir, `bin/${installedBinName}`);
 
   await t.step("convert", async () => {
     const trainedDataPath = getTestPath("eng.fast.traineddata");

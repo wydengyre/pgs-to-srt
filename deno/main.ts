@@ -2,8 +2,12 @@
 import { readAll } from "std/streams/read_all.ts";
 import { extractImage } from "./extract-image.ts";
 import { runConvert } from "./convert.ts";
+import * as path from "std/path/mod.ts";
+import buildConfig from "./build.json" assert { type: "json" };
+import devConfig from "./conf.dev.json" assert { type: "json" };
 
 const USAGE = "[LANGUAGE | SUBTITLE_INDEX]";
+
 function fail(err?: string): never {
   if (err !== undefined) {
     console.error(err);
@@ -27,6 +31,14 @@ async function main(
   if (args.length < 2) {
     fail();
   }
+
+  const [wasmPath, workerPath] = isDev()
+    ? [relativePath(devConfig.wasmPath), relativePath(devConfig.workerPath)]
+    : [
+      relativePath(buildConfig.tesseractWasmBundle),
+      relativePath(buildConfig.workerBundle),
+    ];
+
   const [trainedDataPathOrIndex, supPath] = args;
 
   const supReader = supPath === "-" ? inReader : await Deno.open(supPath);
@@ -37,6 +49,23 @@ async function main(
 
   const index = parseInt(trainedDataPathOrIndex, 10);
   return isNaN(index)
-    ? runConvert(sup, trainedDataPathOrIndex, outWriter, errWriter)
+    ? runConvert(sup, {
+      trainedDataPath: trainedDataPathOrIndex,
+      wasmPath,
+      workerPath,
+      outWriter,
+      errWriter,
+    })
     : extractImage(sup, index, outWriter);
+}
+
+function isDev(): boolean {
+  const mainName = path.basename(buildConfig["main"]);
+  const thisModuleName = path.basename(Deno.mainModule);
+  return thisModuleName === mainName;
+}
+
+function relativePath(p: string): string {
+  const mainDir = path.dirname(path.fromFileUrl(Deno.mainModule));
+  return path.join(mainDir, p);
 }

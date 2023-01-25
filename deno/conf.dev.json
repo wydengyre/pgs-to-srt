@@ -1,0 +1,4 @@
+{
+  "wasmPath": "../deps/tesseract-wasm/tesseract-core.wasm",
+  "workerPath": "../lib/worker.ts"
+}
