@@ -12,17 +12,11 @@ the entire conversion in the browser.
 
 ## Installation
 
-The main prerequisite is [deno](https://deno.land). You'll need
-[`just`](https://github.com/casey/just) and [`curl`](https://curl.se) to build the project.
+[Releases](https://github.com/wydengyre/pgs-to-srt/releases) are published on GitHub as zip files.
 
-
-1. Clone this repo: `git clone --depth=1 git@github.com:wydengyre/pgs-to-srt.git`
-2. Enter the resulting directory: `cd pgs-to-srt`
-3. Install dependencies: `make deps`
-4. (Optional, but recommended for ease of use) Install the main
-   script: `deno install --allow-read --import-map import_map.json --name pgs-to-srt deno/main.ts`
-
-Once installed, the onscreen instructions will give you tips for adding the tool to your `PATH`.
+Uncompress the ZIP to a desired location. You may then install the main script, `pgs-to-srt.js` to
+facilitate use: `deno install --allow-read pgs-to-srt.js`. Onscreen instructions will provide tips
+for adding the tool to your terminal `PATH`.
 
 ## Converting subtitles
 
