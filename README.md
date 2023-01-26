@@ -14,7 +14,7 @@ the entire conversion in the browser.
 
 [Releases](https://github.com/wydengyre/pgs-to-srt/releases) are published on GitHub as zip files.
 
-Uncompress the ZIP to a desired location. You may then install the main script, `pgs-to-srt.js` to
+Uncompress the ZIP to a desired location. You may then install the main script, `pgs-to-srt.js`, to
 facilitate use: `deno install --allow-read pgs-to-srt.js`. Onscreen instructions will provide tips
 for adding the tool to your terminal `PATH`.
 
