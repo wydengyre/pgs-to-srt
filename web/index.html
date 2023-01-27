@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="pico.classless.min.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="modulepreload" href="worker.mjs">
+    <title>PGS and SUP to SRT converter</title>
+    <script type="module" src="main.mjs"></script>
+    <style>
+       canvas {
+           display: block;
+           margin: auto auto var(--typography-spacing-vertical);
+       }
+
+       #language, #conversion {
+           margin-top: var(--block-spacing-vertical);
+       }
+
+       .warning {
+           color: red;
+       }
+
+       #blank-subtitle-warning {
+           display: none;
+       }
+    </style>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1B12WH4VNE"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-1B12WH4VNE');
+    </script>
+</head>
+<body>
+<header>
+    <hgroup>
+    <h1>PGS/SUP to SRT converter</h1>
+    <h2>Quickly generate an SRT subtitle file from a Blu-ray PGS/SUP file.</h2>
+    </hgroup>
+</header>
+
+<main>
+    <div class="step">
+        <hgroup>
+            <h2>Step 1: File selection</h2>
+            <h3>The selected file will not be uploaded: All processing occurs locally, in your browser.</h3>
+        </hgroup>
+    <label>PGS/SUP file
+    <input type="file" accept=".pgs,.sup" />
+    </label>
+    </div>
+
+    <div id="language">
+        <hgroup>
+            <h2>Step 2: Language selection</h2>
+            <h3>Images of the first subtitles appear below the dropdown menu. Select their language for accurate scanning.</h3>
+        </hgroup>
+        <label>Language
+            <select name="language">
+                <option value="" selected>None</option>
+                <option value="afr.traineddata">Afrikaans</option>
+                <option value="sqi.traineddata">Albanian</option>
+                <option value="amh.traineddata">Amharic</option>
+                <option value="grc.traineddata">Ancient Greek (to 1453)</option>
+                <option value="ara.traineddata">Arabic</option>
+                <option value="hye.traineddata">Armenian</option>
+                <option value="asm.traineddata">Assamese</option>
+                <option value="aze.traineddata">Azerbaijani</option>
+                <option value="eus.traineddata">Basque</option>
+                <option value="bel.traineddata">Belarusian</option>
+                <option value="ben.traineddata">Bengali</option>
+                <option value="bos.traineddata">Bosnian</option>
+                <option value="bre.traineddata">Breton</option>
+                <option value="bul.traineddata">Bulgarian</option>
+                <option value="mya.traineddata">Burmese</option>
+                <option value="cat.traineddata">Catalan</option>
+                <option value="ceb.traineddata">Cebuano</option>
+                <option value="chr.traineddata">Cherokee</option>
+                <option value="cos.traineddata">Corsican</option>
+                <option value="hrv.traineddata">Croatian</option>
+                <option value="ces.traineddata">Czech</option>
+                <option value="dan.traineddata">Danish</option>
+                <option value="div.traineddata">Dhivehi</option>
+                <option value="nld.traineddata">Dutch</option>
+                <option value="dzo.traineddata">Dzongkha</option>
+                <option value="eng.traineddata">English</option>
+                <option value="epo.traineddata">Esperanto</option>
+                <option value="est.traineddata">Estonian</option>
+                <option value="fao.traineddata">Faroese</option>
+                <option value="fil.traineddata">Filipino</option>
+                <option value="fin.traineddata">Finnish</option>
+                <option value="frk.traineddata">Frankish</option>
+                <option value="fra.traineddata">French</option>
+                <option value="glg.traineddata">Galician</option>
+                <option value="kat.traineddata">Georgian</option>
+                <option value="deu.traineddata">German</option>
+                <option value="guj.traineddata">Gujarati</option>
+                <option value="hat.traineddata">Haitian</option>
+                <option value="heb.traineddata">Hebrew</option>
+                <option value="hin.traineddata">Hindi</option>
+                <option value="hun.traineddata">Hungarian</option>
+                <option value="isl.traineddata">Icelandic</option>
+                <option value="ind.traineddata">Indonesian</option>
+                <option value="iku.traineddata">Inuktitut</option>
+                <option value="gle.traineddata">Irish</option>
+                <option value="ita.traineddata">Italian</option>
+                <option value="jpn.traineddata">Japanese</option>
+                <option value="jav.traineddata">Javanese</option>
+                <option value="kan.traineddata">Kannada</option>
+                <option value="kaz.traineddata">Kazakh</option>
+                <option value="khm.traineddata">Khmer</option>
+                <option value="kir.traineddata">Kirghiz</option>
+                <option value="kor.traineddata">Korean</option>
+                <option value="lao.traineddata">Lao</option>
+                <option value="lat.traineddata">Latin</option>
+                <option value="lav.traineddata">Latvian</option>
+                <option value="lit.traineddata">Lithuanian</option>
+                <option value="ltz.traineddata">Luxembourgish</option>
+                <option value="mkd.traineddata">Macedonian</option>
+                <option value="msa.traineddata">Malay (macrolanguage)</option>
+                <option value="mal.traineddata">Malayalam</option>
+                <option value="mlt.traineddata">Maltese</option>
+                <option value="mri.traineddata">Maori</option>
+                <option value="mar.traineddata">Marathi</option>
+                <option value="enm.traineddata">Middle English (1100-1500)</option>
+                <option value="frm.traineddata">Middle French (ca. 1400-1600)</option>
+                <option value="ell.traineddata">Modern Greek (1453-)</option>
+                <option value="mon.traineddata">Mongolian</option>
+                <option value="nep.traineddata">Nepali (macrolanguage)</option>
+                <option value="kmr.traineddata">Northern Kurdish</option>
+                <option value="nor.traineddata">Norwegian</option>
+                <option value="oci.traineddata">Occitan (post 1500)</option>
+                <option value="ori.traineddata">Oriya (macrolanguage)</option>
+                <option value="pan.traineddata">Panjabi</option>
+                <option value="fas.traineddata">Persian</option>
+                <option value="pol.traineddata">Polish</option>
+                <option value="por.traineddata">Portuguese</option>
+                <option value="pus.traineddata">Pushto</option>
+                <option value="que.traineddata">Quechua</option>
+                <option value="ron.traineddata">Romanian</option>
+                <option value="rus.traineddata">Russian</option>
+                <option value="san.traineddata">Sanskrit</option>
+                <option value="gla.traineddata">Scottish Gaelic</option>
+                <option value="srp.traineddata">Serbian</option>
+                <option value="snd.traineddata">Sindhi</option>
+                <option value="sin.traineddata">Sinhala</option>
+                <option value="slk.traineddata">Slovak</option>
+                <option value="slv.traineddata">Slovenian</option>
+                <option value="spa.traineddata">Spanish</option>
+                <option value="sun.traineddata">Sundanese</option>
+                <option value="swa.traineddata">Swahili (macrolanguage)</option>
+                <option value="swe.traineddata">Swedish</option>
+                <option value="syr.traineddata">Syriac</option>
+                <option value="tgk.traineddata">Tajik</option>
+                <option value="tam.traineddata">Tamil</option>
+                <option value="tat.traineddata">Tatar</option>
+                <option value="tel.traineddata">Telugu</option>
+                <option value="tha.traineddata">Thai</option>
+                <option value="bod.traineddata">Tibetan</option>
+                <option value="tir.traineddata">Tigrinya</option>
+                <option value="ton.traineddata">Tonga (Tonga Islands)</option>
+                <option value="tur.traineddata">Turkish</option>
+                <option value="uig.traineddata">Uighur</option>
+                <option value="ukr.traineddata">Ukrainian</option>
+                <option value="urd.traineddata">Urdu</option>
+                <option value="uzb.traineddata">Uzbek</option>
+                <option value="vie.traineddata">Vietnamese</option>
+                <option value="cym.traineddata">Welsh</option>
+                <option value="fry.traineddata">Western Frisian</option>
+                <option value="yid.traineddata">Yiddish</option>
+                <option value="yor.traineddata">Yoruba</option>
+            </select>
+        </label>
+        <div id="canvasses"></div>
+    </div>
+
+    <div id="conversion">
+        <hgroup>
+            <h2>Step 3: Conversion</h2>
+            <h3>The converted SRT appears in the box below. Upon completion, you may save to a file.</h3>
+        </hgroup>
+    <label>Conversion progress
+        <progress value="0"></progress>
+    </label>
+        <p id="blank-subtitle-warning" class="warning"><em>Warning</em>:</p>
+    <label>SRT content
+        <textarea readonly rows="10"></textarea>
+    </label>
+    <button id="savesrt" disabled>save SRT</button>
+    </div>
+</main>
+<footer>
+    &copy; Copyright 2022, Wyden and Gyre LLC. Bugs? Suggestions? <a href="matt@wydengyre.com">Email</a>.
+</footer>
+</body>
+</html>
