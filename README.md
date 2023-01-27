@@ -20,16 +20,12 @@ for adding the tool to your terminal `PATH`.
 
 ## Converting subtitles
 
-You may need to download [tesseract trained data](https://github.com/wydengyre/tessdata_fast) for
-the language of your subtitles. The previous link leads to "fast" trained data, which appears to
-give very similar results, in much less time,
-than ["best" trained data](https://github.com/wydengyre/tessdata_best).
+The `tessdata_fast` directory of this repo contains Tesseract trained data files that can be used
+to perform OCR on a variety of languages. You can download only those languages you need.
 
-Included in this repo are trained data sets for English and French.
+To use English, for example:
 
-Then, for example:
-
-`pgs-to-srt test/eng.fast.traineddata test/lostillusions.first100.en.sup > results.srt`
+`pgs-to-srt tessdata_fast/eng.traineddata test/lostillusions.first100.en.sup > results.srt`
 
 ## Extracting subtitle images
 
