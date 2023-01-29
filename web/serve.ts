@@ -1,19 +1,19 @@
 // Copyright (C) 2022 Wyden and Gyre, LLC
 import { serve } from "std/http/server.ts";
-import { PORT } from "./devconsts.ts";
-import { fromFileUrl } from "std/path/mod.ts";
 import { serveDir } from "std/http/file_server.ts";
+import { configPath, configVal } from "./conf.ts";
 
 // Development server. Not for production use.
 
-const fsRoot = fromFileUrl(import.meta.resolve("../dist/browser/dev"));
+const port = configVal("devPort");
+const distDir = configPath("distDir");
 
 async function main() {
   const handler = (req: Request): Promise<Response> => {
-    return serveDir(req, { fsRoot });
+    return serveDir(req, { fsRoot: distDir });
   };
 
-  await serve(handler, { port: PORT });
+  await serve(handler, { port });
 }
 
 if (import.meta.main) {

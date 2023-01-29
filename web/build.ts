@@ -4,7 +4,7 @@ import { expandGlob } from "std/fs/expand_glob.ts";
 import { denoPlugin } from "esbuild_plugin_deno_loader";
 import * as esbuild from "esbuild";
 
-const IMPORT_MAP_PATH_REL = "./import_map.json";
+const IMPORT_MAP_PATH_REL = "../import_map.json";
 const importMapURL = new URL(import.meta.resolve(IMPORT_MAP_PATH_REL));
 
 const INDIVIDUAL_FILES_TO_COPY = [
@@ -48,7 +48,7 @@ async function main() {
 
   // compile worker
   const workerPath = configPath("worker");
-  const workerDistPath = path.join(distDir, "worker.mjs")
+  const workerDistPath = path.join(distDir, "worker.mjs");
   await bundleTs(workerPath, workerDistPath);
 }
 
@@ -72,7 +72,6 @@ export async function bundleTs(sourcePath: string, outfile: string) {
   });
   esbuild.stop();
 }
-
 
 if (import.meta.main) {
   await main();

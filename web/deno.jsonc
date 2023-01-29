@@ -6,5 +6,5 @@
       "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/master/types/wicg-file-system-access/index.d.ts"
     ]
   },
-  "importMap": "./import_map.json"
+  "importMap": "../import_map.json"
 }

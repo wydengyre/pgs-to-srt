@@ -25,8 +25,14 @@ fmt:
 lint:
     deno lint deno test deno-test
 
-check-web:
+web-build:
+    deno run --allow-env --allow-net --allow-read --allow-write --allow-run web/build.ts
+
+web-check:
     deno check --config web/deno.jsonc web/main.ts
+
+web-serve:
+    deno run --allow-net --allow-read=. web/serve.ts
 
 update-deps:
     deno run -A https://deno.land/x/udd/main.ts import_map.json
