@@ -11,7 +11,9 @@ import { BrowserTracing } from "sentry-tracing";
 
 // TODO: cheat to remove ts-ignore from invocations of google analytics
 
-const WORKER_URL = new URL("worker.mjs", window.location.href);
+// TODO: get this value from config. Right now it breaks esbuild with
+// The file "conf.json" was loaded with the "js" loader
+const WORKER_URL = new URL("worker.js", window.location.href);
 
 const SCROLL_INTO_VIEW_OPTIONS: ScrollIntoViewOptions = {
   behavior: "smooth",
@@ -44,15 +46,16 @@ type State = {
   } | null;
 };
 
-const wasmPath = supportsFastBuild()
+const wasmPathRel = supportsFastBuild()
   ? "tesseract-core.wasm"
   : "tesseract-core-fallback.wasm";
+const wasmUrl = new URL(wasmPathRel, window.location.href);
 
 const state: State = {
   /*
    * Data to fetch
    */
-  tesseractWasmPromise: fetchBin(wasmPath),
+  tesseractWasmPromise: fetchBin(wasmUrl),
   trainedData: new Map(),
   sup: null,
   srt: null,
@@ -220,7 +223,7 @@ function saveSrt() {
   document.body.removeChild(downloadableLink);
 }
 
-async function fetchBin(url: string): Promise<Uint8Array> {
+async function fetchBin(url: string | URL): Promise<Uint8Array> {
   const resp = await fetch(url);
   const ab = await resp.arrayBuffer();
   return new Uint8Array(ab);

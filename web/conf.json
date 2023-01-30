@@ -2,5 +2,7 @@
   "devPort": "8099",
   "distDir": "../dist/web",
   "main": "./main.ts",
-  "worker": "../lib/worker.ts"
+  "worker": "../lib/worker.ts",
+  "distMainFile": "main.mjs",
+  "distWorkerFile": "worker.js"
 }
