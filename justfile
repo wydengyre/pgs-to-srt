@@ -1,5 +1,7 @@
 #!/usr/bin/env just --justfile
 
+set dotenv-load := true
+
 tesseractWasmUrl := "https://github.com/wydengyre/tesseract-wasm/releases/download/wydengyre-release-1/tesseract-wasm.zip"
 tesseractWasmZipPath := "build/tesseract-wasm.zip"
 tesseractWasmFilesPath := "deps/tesseract-wasm"
@@ -52,7 +54,11 @@ web-deploy: web-check web-build web-s3-sync web-cloudflare-cache-purge
 
 # deploy web to s3
 web-s3-sync:
-    aws s3 sync ./dist/web s3://pgs-to-srt.com
+    aws s3 sync ./dist/web "$S3_BUCKET"
+
+# show what s3 deployment would do
+web-s3-sync-dryrun:
+    aws s3 sync --dryrun ./dist/web "$S3_BUCKET"
 
 # reset cloudflare cache
 web-cloudflare-cache-purge:
