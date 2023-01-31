@@ -3,6 +3,7 @@ import * as path from "std/path/mod.ts";
 import { expandGlob } from "std/fs/expand_glob.ts";
 import { denoPlugin } from "esbuild_plugin_deno_loader";
 import * as esbuild from "esbuild";
+import { fromFileUrl } from "std/path/mod.ts";
 
 const IMPORT_MAP_PATH_REL = "../import_map.json";
 const importMapURL = new URL(import.meta.resolve(IMPORT_MAP_PATH_REL));
@@ -15,6 +16,11 @@ const INDIVIDUAL_FILES_TO_COPY = [
   "../deps/tesseract-wasm/tesseract-core.wasm",
   "../deps/tesseract-wasm/tesseract-core-fallback.wasm",
 ];
+
+// the shim is needed for the worker to work sa non-module (IIFE), which is needed for Firefox
+const urlShimPath = fromFileUrl(
+  import.meta.resolve("./import-meta-url-shim.js"),
+);
 
 async function main() {
   const distDir = configPath("distDir");
@@ -50,16 +56,6 @@ async function main() {
   const workerPath = configPath("worker");
   const workerDistPath = path.join(distDir, configVal("distWorkerFile"));
   await bundleTs(workerPath, workerDistPath, "iife");
-
-  // nasty hack to fix up worker
-  // TODO: use a setting upstream to avoid generating this
-  // https://github.com/haberbyte/emscripten/commit/855b65fc8be5fea7e8878299cea61b670b61bfa6
-  const workerDistText = await Deno.readTextFile(workerDistPath);
-  const workerDistTextFixed = workerDistText.replaceAll(
-    "import_meta.url",
-    "location.href",
-  );
-  await Deno.writeTextFile(workerDistPath, workerDistTextFixed);
 }
 
 async function copyGlob(pathGlob: string, destDirPath: string) {
@@ -75,7 +71,7 @@ export async function bundleTs(
   outfile: string,
   format: "esm" | "iife",
 ) {
-  await esbuild.build({
+  const buildOptions = {
     bundle: true,
     entryPoints: [sourcePath],
     format: format,
@@ -83,7 +79,11 @@ export async function bundleTs(
     outfile,
     plugins: [denoPlugin({ importMapURL })],
     sourcemap: true,
-  });
+  };
+  if (format === "iife") {
+    buildOptions.inject = [urlShimPath];
+  }
+  await esbuild.build(buildOptions);
   esbuild.stop();
 }
 
