@@ -1,14 +1,11 @@
 # pgs-to-srt
 
-pgs-to-srt is a command-line tool for converting Blu-ray style PGS (aka .sup) subtitles to the SRT
-format.
+This repository is home to the source code of the website [pgs-to-srt.com](https://pgs-to-srt.com),
+as well as its corresponding command-line tool, `pgs-to-srt`. Both are tools for converting Blu-ray
+style PGS (aka `.sup`) subtitles to the SRT format.
 
 Because doing the conversion requires performing error-prone OCR on the image-based PGS format, it
 also has tooling to help you extract the individual subtitle images.
-
-A simple, web-based front-end to this tool is freely available
-at [pgs-to-srt.com](https://pgs-to-srt.com). It does not involve uploading of any files, performing
-the entire conversion in the browser.
 
 ## Installation
 

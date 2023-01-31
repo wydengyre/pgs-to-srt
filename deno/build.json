@@ -8,6 +8,7 @@
   "workerBundle": "worker.js",
   "tesseractWasmBundle": "tesseract-core.wasm",
   "bundleZip": "../dist/deno/pgs-to-srt.zip",
+  "distPath": "../dist",
 
   "dockerBuildImageName": "pgs-to-srt-build"
 }

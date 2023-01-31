@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "lib": ["dom", "dom.iterable", "deno.ns", "deno.unstable"],
+    "types": [
+      // used for open file dialog
+      "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/master/types/wicg-file-system-access/index.d.ts"
+    ]
+  },
+  "importMap": "../import_map.json"
+}
