@@ -62,7 +62,10 @@ web-s3-sync-dryrun:
 
 # reset cloudflare cache
 web-cloudflare-cache-purge:
-    echo "Please manually purge the cloudflare cache for pgs-to-srt.com"
+    curl -X POST "https://api.cloudflare.com/client/v4/zones/$CLOUDFLARE_ZONE_ID/purge_cache" \
+         -H "Content-Type: application/json" \
+         -H "Authorization: Bearer $CLOUDFLARE_TOKEN" \
+         --data '{"purge_everything":true}'
 
 # update dependencies to latest versions
 update-deps:
