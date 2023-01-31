@@ -48,7 +48,7 @@ web-build:
 web-serve:
     deno run --allow-net --allow-read=. web/serve.ts
 
-web-deploy: web-check web-build web-s3-sync web-cloudflare-cache-reset
+web-deploy: web-check web-build web-s3-sync web-cloudflare-cache-purge
 
 # deploy web to s3
 web-s3-sync:
