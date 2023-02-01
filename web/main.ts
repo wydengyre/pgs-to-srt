@@ -1,9 +1,13 @@
 // Copyright (C) 2023 Wyden and Gyre, LLC
-import { supportsFastBuild } from "../deps/tesseract-wasm/lib.js";
+import * as Sentry from "@sentry/browser";
+import { BrowserTracing } from "@sentry/tracing";
 
-import * as Sentry from "sentry-browser";
-import { BrowserTracing } from "sentry-tracing";
-import { pathFilename, pipeline, renderInitial } from "./lib.ts";
+import {
+  pathFilename,
+  pipeline,
+  renderInitial,
+  supportsFastBuild,
+} from "pgs-to-srt-web-lib";
 
 // TODO: cheat to remove ts-ignore from invocations of google analytics
 
@@ -126,7 +130,7 @@ async function pickFile(this: HTMLInputElement) {
   Sentry.addBreadcrumb({
     level: "info",
     category: "ui",
-    description: `selected SUP file: ${supFile.name}`,
+    message: `selected SUP file: ${supFile.name}`,
   });
 
   // @ts-ignore

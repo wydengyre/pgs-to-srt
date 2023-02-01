@@ -14,7 +14,7 @@ default:
     just --list --justfile {{justfile()}}
 
 clean:
-	rm -rf deps build dist
+	rm -rf deps build dist web/node_modules
 
 # install dependencies
 deps:
@@ -25,7 +25,7 @@ deps:
     unzip -q -o -d {{picoCssFilesPath}} {{picoCssZipPath}}
 
 # run all ci checks
-ci: ci-fmt lint deps web-check build test web-build
+ci: ci-fmt lint deps web-check build test web-build-lib web-install-deps web-build
 
 # ci formatting check
 ci-fmt:
@@ -40,7 +40,15 @@ lint:
 
 # check web types
 web-check:
-    deno check --config web/deno.jsonc web/main.ts
+    deno check --config web/deno.jsonc web/lib.ts
+
+# build web libs
+web-build-lib:
+    deno run --allow-env --allow-net --allow-read --allow-write --allow-run web/build-lib.ts
+
+# install web deps
+web-install-deps:
+    cd web && npm install
 
 # build for the web
 web-build:

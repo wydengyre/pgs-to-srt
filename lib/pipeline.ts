@@ -4,7 +4,11 @@ import { iterOds, packetize, pgsSchema } from "./transform.ts";
 import { tee } from "std/async/tee.ts";
 import { ocr } from "./ocr.ts";
 import { srt } from "./srt.ts";
-import { Progress } from "../deno/progress.ts";
+
+export type Progress = {
+  completed: number;
+  total: number;
+};
 
 export async function* pipeline(
   pgs: Uint8Array,
