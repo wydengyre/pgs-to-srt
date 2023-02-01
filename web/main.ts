@@ -1,11 +1,9 @@
-// Copyright (C) 2022 Wyden and Gyre, LLC
+// Copyright (C) 2023 Wyden and Gyre, LLC
 import { supportsFastBuild } from "../deps/tesseract-wasm/lib.js";
-import * as path from "std/path/mod.ts";
 
 import * as Sentry from "sentry-browser";
 import { BrowserTracing } from "sentry-tracing";
-import { renderInitial } from "./lib.ts";
-import { pipeline } from "../lib/pipeline.ts";
+import { pathFilename, pipeline, renderInitial } from "./lib.ts";
 
 // TODO: cheat to remove ts-ignore from invocations of google analytics
 
@@ -209,7 +207,7 @@ function saveSrt() {
     "href",
     `data:text/plain;charset=utf-8,${encodeURIComponent(srt)}`,
   );
-  downloadableLink.download = `${path.parse(supPath).name}.srt`;
+  downloadableLink.download = `${pathFilename(supPath)}.srt`;
   document.body.appendChild(downloadableLink);
   downloadableLink.click();
   document.body.removeChild(downloadableLink);

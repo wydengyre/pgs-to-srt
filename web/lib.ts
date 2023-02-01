@@ -2,12 +2,16 @@
 import { parse } from "../lib/parse.ts";
 import { iterOds, packetize, pgsSchema } from "../lib/transform.ts";
 import { Image, imageToLittleEndian, render } from "../lib/render.ts";
+import { pipeline } from "../lib/pipeline.ts";
+import * as path from "std/path/mod.ts";
 
 // a library for interacting with the "guts" of the pgs-to-srt process
 // do not import this library directly, instead import its compiled version
 // TODO: provide path
 
-export async function* renderInitial(
+export { pathFilename, pipeline, renderInitial };
+
+async function* renderInitial(
   pgs: Uint8Array,
 ): AsyncGenerator<HTMLCanvasElement> {
   const initialParse = parse(pgs);
@@ -32,4 +36,8 @@ function createCanvasFromImage(image: Image): HTMLCanvasElement {
   const ctx = canvas.getContext("2d")!;
   ctx.putImageData(imageData, 0, 0);
   return canvas;
+}
+
+function pathFilename(p: string): string {
+  return path.parse(p).name;
 }
