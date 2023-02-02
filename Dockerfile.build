@@ -1,7 +1,7 @@
 # alpine-1.30.0
 # https://hub.docker.com/layers/denoland/deno/alpine-1.30.0/images/sha256-8a287de2bea72037974dc021c94f783142d6cdea1d738b571104a242af364200?context=explore
 FROM denoland/deno@sha256:8a287de2bea72037974dc021c94f783142d6cdea1d738b571104a242af364200
-RUN apk add curl zip
+RUN apk add curl zip npm
 
 # install just
 RUN cd tmp \

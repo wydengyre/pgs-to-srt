@@ -1,12 +1,8 @@
 import { configPath, configVal } from "./conf.ts";
 import * as path from "std/path/mod.ts";
 import { expandGlob } from "std/fs/expand_glob.ts";
-import { denoPlugin } from "esbuild_plugin_deno_loader";
 import * as esbuild from "esbuild";
-import { fromFileUrl } from "std/path/mod.ts";
-
-const IMPORT_MAP_PATH_REL = "../import_map.json";
-const importMapURL = new URL(import.meta.resolve(IMPORT_MAP_PATH_REL));
+import { workerBuildPath } from "./build-lib.ts";
 
 const INDIVIDUAL_FILES_TO_COPY = [
   "./index.html",
@@ -16,11 +12,6 @@ const INDIVIDUAL_FILES_TO_COPY = [
   "../deps/tesseract-wasm/tesseract-core.wasm",
   "../deps/tesseract-wasm/tesseract-core-fallback.wasm",
 ];
-
-// the shim is needed for the worker to work sa non-module (IIFE), which is needed for Firefox
-const urlShimPath = fromFileUrl(
-  import.meta.resolve("./import-meta-url-shim.js"),
-);
 
 async function main() {
   const distDir = configPath("distDir");
@@ -47,15 +38,26 @@ async function main() {
   const trainedDataGlob = path.join(trainedDataPath, "*.traineddata");
   await copyGlob(trainedDataGlob, distDir);
 
-  // compile main
-  const mainPath = configPath("main");
-  const mainDistPath = path.join(distDir, configVal("distMainFile"));
-  await bundleTs(mainPath, mainDistPath, "esm");
+  // copy worker
+  const workerDistPath = path.join(distDir, configVal("outWorkerFile"));
+  Deno.copyFile(workerBuildPath, workerDistPath);
+  const workedMapBuildPath = workerBuildPath + ".map";
+  const workerMapDistPath = workerDistPath + ".map";
+  Deno.copyFile(workedMapBuildPath, workerMapDistPath);
 
-  // compile worker
-  const workerPath = configPath("worker");
-  const workerDistPath = path.join(distDir, configVal("distWorkerFile"));
-  await bundleTs(workerPath, workerDistPath, "iife");
+  // bundle main.ts
+  const mainPath = configPath("main");
+  const outMainFile = configVal("outMainFile");
+  const outfile = path.join(distDir, outMainFile);
+  const buildOptions = {
+    bundle: true,
+    entryPoints: [mainPath],
+    format: "esm",
+    outfile,
+    sourcemap: true,
+  };
+  await esbuild.build(buildOptions);
+  esbuild.stop();
 }
 
 async function copyGlob(pathGlob: string, destDirPath: string) {
@@ -64,27 +66,6 @@ async function copyGlob(pathGlob: string, destDirPath: string) {
     const dest = path.join(destDirPath, filePath.name);
     await Deno.copyFile(filePath.path, dest);
   }
-}
-
-export async function bundleTs(
-  sourcePath: string,
-  outfile: string,
-  format: "esm" | "iife",
-) {
-  const buildOptions = {
-    bundle: true,
-    entryPoints: [sourcePath],
-    format: format,
-    minify: false,
-    outfile,
-    plugins: [denoPlugin({ importMapURL })],
-    sourcemap: true,
-  };
-  if (format === "iife") {
-    buildOptions.inject = [urlShimPath];
-  }
-  await esbuild.build(buildOptions);
-  esbuild.stop();
 }
 
 if (import.meta.main) {

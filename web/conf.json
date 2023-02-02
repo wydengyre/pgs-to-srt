@@ -1,8 +1,12 @@
 {
   "devPort": "8099",
+  "buildDir": "../build/web",
+  "buildNodePackageDir": "../build/web/node_package",
   "distDir": "../dist/web",
   "main": "./main.ts",
+  "lib": "./lib.ts",
   "worker": "../lib/worker.ts",
-  "distMainFile": "main.mjs",
-  "distWorkerFile": "worker.js"
+  "outLibFile": "lib.js",
+  "outMainFile": "main.mjs",
+  "outWorkerFile": "worker.js"
 }

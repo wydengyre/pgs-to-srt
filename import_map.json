@@ -1,19 +1,11 @@
 {
   "imports": {
     "bitmap": "https://deno.land/x/bitmap@v1.0.1/mod.ts",
+    "dnt": "https://deno.land/x/dnt@0.33.1/mod.ts",
     "esbuild": "https://deno.land/x/esbuild@v0.17.5/mod.js",
     "esbuild_plugin_deno_loader": "https://deno.land/x/esbuild_deno_loader@0.6.0/mod.ts",
     "iso6393": "https://esm.sh/iso-639-3@3.0.1",
-    "sentry-browser": "https://ga.jspm.io/npm:@sentry/browser@7.15.0/esm/index.js",
-    "sentry-tracing": "https://ga.jspm.io/npm:@sentry/tracing@7.15.0/esm/index.js",
     "std/": "https://deno.land/std@0.175.0/",
     "zod": "https://deno.land/x/zod@v3.20.2/mod.ts"
-  },
-  "scopes": {
-    "https://ga.jspm.io/": {
-      "@sentry/core": "https://ga.jspm.io/npm:@sentry/core@7.15.0/esm/index.js",
-      "@sentry/utils": "https://ga.jspm.io/npm:@sentry/utils@7.15.0/esm/index.js",
-      "@sentry/utils/esm/buildPolyfills": "https://ga.jspm.io/npm:@sentry/utils@7.15.0/esm/buildPolyfills/index.js"
-    }
   }
 }

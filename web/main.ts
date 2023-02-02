@@ -1,13 +1,13 @@
-// Copyright (C) 2022 Wyden and Gyre, LLC
-import { supportsFastBuild } from "../deps/tesseract-wasm/lib.js";
-import { parse } from "../lib/parse.ts";
-import { iterOds, packetize, pgsSchema } from "../lib/transform.ts";
-import { Image, imageToLittleEndian, render } from "../lib/render.ts";
-import { pipeline } from "../lib/pipeline.ts";
-import * as path from "std/path/mod.ts";
+// Copyright (C) 2023 Wyden and Gyre, LLC
+import * as Sentry from "@sentry/browser";
+import { BrowserTracing } from "@sentry/tracing";
 
-import * as Sentry from "sentry-browser";
-import { BrowserTracing } from "sentry-tracing";
+import {
+  pathFilename,
+  pipeline,
+  renderInitial,
+  supportsFastBuild,
+} from "pgs-to-srt-web-lib";
 
 // TODO: cheat to remove ts-ignore from invocations of google analytics
 
@@ -130,7 +130,7 @@ async function pickFile(this: HTMLInputElement) {
   Sentry.addBreadcrumb({
     level: "info",
     category: "ui",
-    description: `selected SUP file: ${supFile.name}`,
+    message: `selected SUP file: ${supFile.name}`,
   });
 
   // @ts-ignore
@@ -139,18 +139,12 @@ async function pickFile(this: HTMLInputElement) {
   const supContent = supFile.arrayBuffer();
   state.sup = { supFile, supContent };
 
-  const sup = new Uint8Array(await supContent);
-  const initialParse = parse(sup);
-  const basicParsed = pgsSchema.parse(initialParse);
-  const parsedSegments = basicParsed.segment;
-  const groupedSegments = packetize(parsedSegments);
-  const unrendered = iterOds(groupedSegments);
+  const pgs = new Uint8Array(await supContent);
+  const renderedCanvasses = renderInitial(pgs);
 
   const INITIAL_IMAGES_TO_RENDER_COUNT = 5;
   for (let i = 0; i < INITIAL_IMAGES_TO_RENDER_COUNT; i++) {
-    const unrenderedImage = (await unrendered.next()).value;
-    const rendered = render(unrenderedImage.ods, unrenderedImage.pds);
-    const canvas = createCanvasFromImage(rendered);
+    const canvas = (await renderedCanvasses.next()).value;
     canvasses.appendChild(canvas);
   }
 }
@@ -217,7 +211,7 @@ function saveSrt() {
     "href",
     `data:text/plain;charset=utf-8,${encodeURIComponent(srt)}`,
   );
-  downloadableLink.download = `${path.parse(supPath).name}.srt`;
+  downloadableLink.download = `${pathFilename(supPath)}.srt`;
   document.body.appendChild(downloadableLink);
   downloadableLink.click();
   document.body.removeChild(downloadableLink);
@@ -227,17 +221,4 @@ async function fetchBin(url: string | URL): Promise<Uint8Array> {
   const resp = await fetch(url);
   const ab = await resp.arrayBuffer();
   return new Uint8Array(ab);
-}
-
-function createCanvasFromImage(image: Image): HTMLCanvasElement {
-  const imageUint8 = imageToLittleEndian(image);
-  const clamped = new Uint8ClampedArray(imageUint8.buffer);
-  const imageData = new ImageData(clamped, image.width, image.height);
-
-  const canvas = document.createElement("canvas");
-  canvas.width = imageData.width;
-  canvas.height = imageData.height;
-  const ctx = canvas.getContext("2d")!;
-  ctx.putImageData(imageData, 0, 0);
-  return canvas;
 }

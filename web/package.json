@@ -1,0 +1,20 @@
+{
+  "name": "pgs-to-srt-web",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Matthew Leon <matt@wydengyre.com>",
+  "dependencies": {
+    "pgs-to-srt-web-lib": "file:../build/web/node_package",
+    "@sentry/browser": "^7.36.0",
+    "@sentry/tracing": "^7.36.0"
+  },
+  "devDependencies": {
+    "@tsconfig/recommended": "^1.0.2",
+    "typescript": "^5.0.0-beta"
+  }
+}

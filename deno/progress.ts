@@ -1,10 +1,6 @@
 // Copyright (C) 2023 Wyden and Gyre, LLC
 import { writeAll } from "std/streams/write_all.ts";
-
-export type Progress = {
-  completed: number;
-  total: number;
-};
+import { Progress } from "../lib/pipeline.ts";
 
 export async function render(
   w: Deno.Writer,
