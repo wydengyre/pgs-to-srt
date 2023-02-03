@@ -41,6 +41,8 @@ async function main() {
     // TODO: sadly this currently throws TS7053 on std@0.175.0/async/pool.ts
     typeCheck: false,
     test: false,
+    // we only use ESM, so generating a CJS module is not needed
+    scriptModule: false,
   });
 
   // compile worker
