@@ -25,7 +25,7 @@ deps:
     unzip -q -o -d {{picoCssFilesPath}} {{picoCssZipPath}}
 
 # run all ci checks
-ci: ci-fmt lint deps web-check build test web-build-lib web-install-deps web-build
+ci: ci-fmt lint deps build test web-check-lib web-build-lib web-install-deps web-check-main web-build
 
 # ci formatting check
 ci-fmt:
@@ -39,12 +39,15 @@ lint:
     deno lint deno test deno-test
 
 # check web types
-web-check:
+web-check-lib:
     deno check --config web/deno.jsonc web/lib.ts
 
 # build web libs
 web-build-lib:
     deno run --allow-env --allow-net --allow-read --allow-write --allow-run web/build-lib.ts
+
+web-check-main:
+    cd web && npx tsc
 
 # install web deps
 web-install-deps:
@@ -58,7 +61,7 @@ web-build:
 web-serve:
     deno run --allow-net --allow-read=. web/serve.ts
 
-web-deploy: web-check web-build web-s3-sync web-cloudflare-cache-purge
+web-deploy: web-check-lib web-build web-s3-sync web-cloudflare-cache-purge
 
 # deploy web to s3
 web-s3-sync:
