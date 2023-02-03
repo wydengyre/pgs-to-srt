@@ -3,7 +3,6 @@
   "files": ["main.ts"],
   "compilerOptions": {
     "noEmit": true,
-    "skipLibCheck": false,
     "target": "esnext"
   }
 }
