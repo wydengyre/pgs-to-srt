@@ -2,12 +2,15 @@
 import * as Sentry from "@sentry/browser";
 import { BrowserTracing } from "@sentry/tracing";
 
+// by importing from the "canonical" TS, we don't need to play with
+// npm link, or performing npm install every time we update the source,
+// we simply need to run the lib build
 import {
   pathFilename,
   pipeline,
   renderInitial,
   supportsFastBuild,
-} from "pgs-to-srt-web-lib";
+} from "../build/web/node_package/src/web/lib.js";
 
 // TODO: cheat to remove ts-ignore from invocations of google analytics
 
