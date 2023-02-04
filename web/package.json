@@ -5,7 +5,6 @@
   "main": "main.ts",
   "author": "Matthew Leon <matt@wydengyre.com>",
   "dependencies": {
-    "pgs-to-srt-web-lib": "file:../build/web/node_package",
     "@sentry/browser": "^7.36.0",
     "@sentry/tracing": "^7.36.0"
   },

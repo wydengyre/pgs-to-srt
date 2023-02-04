@@ -26,7 +26,6 @@ async function main() {
   const buildNodePackageDir = configPath("buildNodePackageDir");
   dnt.build({
     compilerOptions: {
-      // necessary for deno async/pool...
       lib: ["dom", "esnext"],
     },
     entryPoints: [libPath],
@@ -38,10 +37,11 @@ async function main() {
     package: {
       name: "pgs-to-srt-web-lib",
     },
-    // TODO: sadly this currently throws TS7053 on std@0.175.0/async/pool.ts
+    // this typecheck will be performed when we compile main.ts,
+    // because we include the "canonical" TS directly
     typeCheck: false,
     test: false,
-    // we only use ESM, so generating a CJS module is not needed
+    // ideally we wouldn't output esm either, as we only want the canonical typescript output
     scriptModule: false,
   });
 
