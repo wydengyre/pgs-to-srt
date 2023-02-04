@@ -1,5 +1,6 @@
 // Copyright (C) 2023 Wyden and Gyre, LLC
-import { deadline, deferred } from "std/async/mod.ts";
+import { deadline } from "std/async/deadline.ts";
+import { deferred } from "std/async/deferred.ts";
 
 export const ERROR_WHILE_MAPPING_MESSAGE = "Threw while mapping.";
 
