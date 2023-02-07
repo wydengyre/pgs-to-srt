@@ -1,4 +1,4 @@
-import config from "./conf.json" assert { type: "json" };
+import config from "./build-conf.json" assert { type: "json" };
 import * as path from "std/path/mod.ts";
 
 export function configVal(key: keyof typeof config): string {

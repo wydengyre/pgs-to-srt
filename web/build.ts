@@ -1,11 +1,10 @@
-import { configPath, configVal } from "./conf.ts";
+import { configPath, configVal } from "./build-conf.ts";
 import * as path from "std/path/mod.ts";
 import { expandGlob } from "std/fs/expand_glob.ts";
 import * as esbuild from "esbuild";
 import { workerBuildPath } from "./build-lib.ts";
 
 const INDIVIDUAL_FILES_TO_COPY = [
-  "./index.html",
   "./pico.classless.min.css",
   "./pico.classless.min.css.map",
   "./favicon.ico",
@@ -44,6 +43,18 @@ async function main() {
   const workedMapBuildPath = workerBuildPath + ".map";
   const workerMapDistPath = workerDistPath + ".map";
   await Deno.copyFile(workedMapBuildPath, workerMapDistPath);
+
+  // render index template
+  const CANONICAL_HOME_VAR = "$CANONICAL_HOME";
+  const canonicalHome = configVal("canonicalHome");
+  const indexTemplatePath = configPath("indexTemplate");
+  const indexTemplateText = await Deno.readTextFile(indexTemplatePath);
+  const indexText = indexTemplateText.replaceAll(
+    CANONICAL_HOME_VAR,
+    canonicalHome,
+  );
+  const indexPath = path.join(distDir, "index.html");
+  await Deno.writeTextFile(indexPath, indexText);
 
   // bundle main.ts
   const mainPath = configPath("main");

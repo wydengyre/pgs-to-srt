@@ -1,7 +1,7 @@
 // Copyright (C) 2022 Wyden and Gyre, LLC
 import { serve } from "std/http/server.ts";
 import { serveDir } from "std/http/file_server.ts";
-import { configPath, configVal } from "./conf.ts";
+import { configPath, configVal } from "./build-conf.ts";
 
 // Development server. Not for production use.
 
