@@ -40,10 +40,10 @@ async function main() {
 
   // copy worker
   const workerDistPath = path.join(distDir, configVal("outWorkerFile"));
-  Deno.copyFile(workerBuildPath, workerDistPath);
+  await Deno.copyFile(workerBuildPath, workerDistPath);
   const workedMapBuildPath = workerBuildPath + ".map";
   const workerMapDistPath = workerDistPath + ".map";
-  Deno.copyFile(workedMapBuildPath, workerMapDistPath);
+  await Deno.copyFile(workedMapBuildPath, workerMapDistPath);
 
   // bundle main.ts
   const mainPath = configPath("main");

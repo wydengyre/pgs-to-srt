@@ -24,7 +24,7 @@ async function main() {
   // compile lib
   const libPath = configPath("lib");
   const buildNodePackageDir = configPath("buildNodePackageDir");
-  dnt.build({
+  await dnt.build({
     compilerOptions: {
       lib: ["dom", "esnext"],
     },
