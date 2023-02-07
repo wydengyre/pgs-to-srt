@@ -1,4 +1,4 @@
-import { configPath, configVal } from "./conf.ts";
+import { configPath, configVal } from "./build-conf.ts";
 import * as path from "std/path/mod.ts";
 import { expandGlob } from "std/fs/expand_glob.ts";
 import * as esbuild from "esbuild";

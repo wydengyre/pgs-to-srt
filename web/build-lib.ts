@@ -1,6 +1,6 @@
 import { denoPlugin } from "esbuild_plugin_deno_loader";
 import * as esbuild from "esbuild";
-import { configPath, configVal } from "./conf.ts";
+import { configPath, configVal } from "./build-conf.ts";
 import * as path from "std/path/mod.ts";
 import { fromFileUrl } from "std/path/mod.ts";
 import * as dnt from "dnt";
