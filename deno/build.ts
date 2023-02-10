@@ -1,5 +1,6 @@
 import * as path from "std/path/mod.ts";
 import { configPath, configVal } from "./build-config.ts";
+import * as esbuild from "https://deno.land/x/esbuild@v0.17.7/mod.js";
 
 const mainPath = configPath("main");
 const workerPath = configPath("worker");
@@ -29,14 +30,25 @@ async function main() {
 // TODO: consider a timeout using an abort signal
 async function denoBundle(inPath: string, outPath: string) {
   const cmd = new Deno.Command("deno", {
-    args: ["bundle", inPath, outPath],
+    args: ["bundle", inPath],
     cwd: path.fromFileUrl(import.meta.resolve("../")),
   });
-  const child = cmd.spawn();
-  const { success, code } = await child.status;
+  const { success, code, stdout, stderr } = await cmd.output();
   if (!success) {
-    throw `bundling file ${inPath} to ${outPath} failed with code ${code}`;
+    const err = new TextDecoder().decode(stderr);
+    throw `bundling file ${inPath} to ${outPath} failed with code ${code}: ${err}`;
   }
+
+  const buildOptions: esbuild.TransformOptions = {
+    treeShaking: true,
+  };
+  const build = await esbuild.transform(stdout, buildOptions);
+  esbuild.stop();
+  if (build.warnings.length > 0) {
+    throw `Warnings from esbuild: ${build.warnings}`;
+  }
+
+  await Deno.writeTextFile(outPath, build.code);
 }
 
 // TODO: consider a timeout using an abort signal

@@ -64,6 +64,7 @@ async function main() {
     bundle: true,
     entryPoints: [mainPath],
     format: "esm",
+    minify: true,
     outfile,
     sourcemap: true,
   };
