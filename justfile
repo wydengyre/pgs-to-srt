@@ -95,4 +95,4 @@ end-to-end-test:
 
 # build for deno distribution
 build:
-    deno run --check=all --unstable --allow-read=./ --allow-run=deno,zip --allow-write=build,dist deno/build.ts
+    deno run --check=all --unstable --allow-env --allow-read --allow-run --allow-write deno/build.ts
