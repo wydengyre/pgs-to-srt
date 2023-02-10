@@ -96,14 +96,3 @@ end-to-end-test:
 # build for deno distribution
 build:
     deno run --check=all --unstable --allow-read=./ --allow-run=deno,zip --allow-write=build,dist deno/build.ts
-
-# run docker-based ci
-docker-ci: clean docker-build-image docker-run-build
-
-# build docker image
-docker-build-image:
-    deno run --unstable --allow-run=docker deno/build-docker-image.ts
-
-# run docker ci build image
-docker-run-build:
-    deno run --unstable --allow-read=./ --allow-write=./ --allow-run=docker deno/build-docker-build.ts
