@@ -58,6 +58,7 @@ export async function bundleDenoTs(
     bundle: true,
     entryPoints: [sourcePath],
     format: format,
+    minify: true,
     outfile,
     plugins: [denoPlugin({ importMapURL })],
     sourcemap: true,
