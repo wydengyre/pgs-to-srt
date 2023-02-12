@@ -12,8 +12,6 @@ import {
   supportsFastBuild,
 } from "../build/web/node_package/src/web/lib.js";
 
-// TODO: cheat to remove ts-ignore from invocations of google analytics
-
 // TODO: get this value from config. Right now it breaks esbuild with
 // The file "conf.json" was loaded with the "js" loader
 const WORKER_URL = new URL("worker.js", window.location.href);
@@ -136,7 +134,6 @@ async function pickFile(this: HTMLInputElement) {
     message: `selected SUP file: ${supFile.name}`,
   });
 
-  // @ts-ignore
   gtag("event", "pick_file", { file_name: supFile.name });
 
   const supContent = supFile.arrayBuffer();
@@ -158,7 +155,6 @@ async function selectLanguage() {
   const langUrl = langSelect.value;
   const langName = langSelect.name;
 
-  // @ts-ignore
   gtag("event", "select_language", { language_name: langName });
 
   const langPromise = state.trainedData.has(langUrl)
