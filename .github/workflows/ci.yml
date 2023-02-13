@@ -33,3 +33,10 @@ jobs:
 
       - name: build and test
         run: just ci
+
+      - name: Archive artifact
+        uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce #v3.2.1
+        with:
+          name: pgs-to-srt deno cli
+          path: dist/deno/pgs-to-srt.zip
+          retention-days: 7
