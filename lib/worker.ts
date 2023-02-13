@@ -12,6 +12,9 @@ const PSM_SINGLE_BLOCK = 6;
 const stdout: string[] = [];
 const stderr: string[] = [];
 
+const uuid = crypto.randomUUID();
+console.log(`worker thread spinning up: ${uuid}`);
+
 const logToFakeStream = (fakeStream: string[], msg: string): void => {
   fakeStream.push(msg);
 };
@@ -25,13 +28,16 @@ const logToStderr = (msg: string): void => {
 };
 
 self.onmessage = async (e: MessageEvent) => {
+  console.log(`${uuid}: worker thread: got init message`);
   let initPromise: Promise<void>;
   self.onmessage = async (e: MessageEvent) => {
     await initPromise;
     recognize(e.data);
   };
+  console.log(`${uuid}: worker thread:init with data`);
   initPromise = init(e.data);
   await initPromise;
+  console.log(`${uuid} worker thread: posting message home`);
   postMessage(null);
 };
 
@@ -43,11 +49,15 @@ async function init(
   },
 ): Promise<void> {
   const emscriptenModuleOptions = { print: logToStdout, printErr: logToStderr };
+  console.log(`${Date.now()} ${uuid}: creating OCR engine`);
+  console.log(`${uuid}: wasmBinary size: ${wasmBinary.length}`);
+  console.log(`${uuid}: trainedData size: ${trainedData.length}`);
   engine = await createOCREngine({
     emscriptenModuleOptions,
     progressChannel: undefined,
     wasmBinary,
   });
+  console.log(`${Date.now()} ${uuid}: loading training data`);
   engine.loadModel(trainedData);
 }
 

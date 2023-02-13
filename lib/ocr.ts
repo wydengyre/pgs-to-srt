@@ -20,13 +20,17 @@ export async function* ocr(
   const [unrendered1, unrendered2] = tee(unrendered);
   const iter = unrendered2[Symbol.asyncIterator]();
 
+  console.log("creating pool");
   const pool = await Pool.create<Unrendered, string>(
     workerSpecifier,
     { wasmBinary, trainedData },
   );
+  console.log("pool created");
 
+  console.log("processing");
   try {
     for await (const text of pool.process(unrendered1)) {
+      console.log(`processed: ${text}`);
       let { startTime, endTime } = (await iter.next()).value;
       startTime /= TIME_ACCURACY_KHZ;
       endTime /= TIME_ACCURACY_KHZ;

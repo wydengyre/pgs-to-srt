@@ -38,10 +38,12 @@ export class Pool<I, O> {
 
     const threadPromises = [];
     for (let i = 0; i < threadCount; i++) {
+      console.log(`spawning promise: ${i+1}/${threadCount}`);
       const threadPromise = deadline(
         Thread.spawn<I, O>(workerSpecifier, initData),
         initDeadline,
       );
+      console.log(`spawned promise: ${i+1}/${threadCount}`);
       threadPromises.push(threadPromise);
     }
 
@@ -51,12 +53,16 @@ export class Pool<I, O> {
 
   async *process(is: AsyncIterable<I>): AsyncIterable<O> {
     const iteratorFn = async (i: I): Promise<O> => {
+      console.log("get available thread");
       const availableThread = this.availableThread()!;
       availableThread.busy = true;
+      console.log(`available thread: ${availableThread}`);
+      console.log(`processing: ${i}`);
       const processed = await deadline(
         availableThread.thread.process(i),
         this.#jobDeadline,
       );
+      console.log(`processed: ${i}`);
       availableThread.busy = false;
       return processed;
     };
@@ -85,12 +91,19 @@ export class Thread<I, O> {
     workerSpecifier: string | URL,
     initMessage: unknown,
   ): Promise<Thread<I, O>> {
+    const uuid = crypto.randomUUID();
+    console.log(`spawn worker: ${uuid}`);
     const w = new Worker(workerSpecifier, { type: "module" });
+    console.log(`spawned worker: ${uuid}`);
     const p = deferred<Thread<I, O>>();
-    w.onmessage = () => p.resolve(new Thread(w));
+    w.onmessage = () => {
+      console.log(`got message: ${uuid}. resolving promise`);
+      return p.resolve(new Thread(w));
+    }
     w.onerror = p.reject;
     w.onmessageerror = p.reject;
     w.postMessage(initMessage);
+    console.log(`returning promise: ${uuid}`);
     return p;
   }
 
