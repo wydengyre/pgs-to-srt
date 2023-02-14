@@ -36,16 +36,19 @@ export class Pool<I, O> {
       ...defaultPoolOptions,
     }, poolOptionOverrides ?? {});
 
-    const threadPromises = [];
+    // We spawn threads serially rather in parallel because:
+    // 1. Simultaneous invocations of WebAssembly.instantiate from different web workers
+    // seem to hang sometimes in Safari, at least when running the local server. There might be a race condition.
+    // 2. As of this comment, we can't compile to a WebAssembly.Module and pass it off to the tesseract lib /
+    // emscripten. This would be the preferable approach, saving us from repeating the initialization in our workers.
+    const threads = Array(threadCount);
     for (let i = 0; i < threadCount; i++) {
-      const threadPromise = deadline(
+      threads[i] = await deadline(
         Thread.spawn<I, O>(workerSpecifier, initData),
         initDeadline,
       );
-      threadPromises.push(threadPromise);
     }
 
-    const threads = await Promise.all(threadPromises);
     return new this(threads, jobDeadline);
   }
 
