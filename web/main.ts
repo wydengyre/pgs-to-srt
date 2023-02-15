@@ -169,7 +169,10 @@ async function selectLanguage() {
 
   const sup = new Uint8Array(await state.sup!.supContent);
   state.srt = { text: "", progress: 0, blanks: [] };
-  const startRender = performance.now();
+
+  const startRender = "start_render";
+  performance.mark(startRender);
+
   const srtIter = pipeline(sup, WORKER_URL, tesseractWasm, trainedData);
   let next = await srtIter.next();
   while (!next.done) {
@@ -179,8 +182,10 @@ async function selectLanguage() {
     addSub(sub);
     next = await srtIter.next();
   }
-  const endRender = performance.now();
-  console.log(`rendered in ${endRender - startRender}`);
+  const endRender = "endRender";
+  performance.mark(endRender);
+  const renderTime = performance.measure("renderTime", startRender, endRender);
+  console.info(`rendered in: ${renderTime.duration}`);
 
   saveButton.removeAttribute("disabled");
 
