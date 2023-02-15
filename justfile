@@ -61,6 +61,9 @@ web-build:
 web-serve:
     deno run --allow-net --allow-read=. web/serve.ts
 
+# for faster iteration when running locally
+web-build-and-serve: web-build-lib web-build web-serve
+
 web-deploy: web-check-lib web-build web-s3-sync web-cloudflare-cache-purge
 
 # deploy web to s3
