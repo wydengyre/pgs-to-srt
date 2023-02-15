@@ -13,7 +13,9 @@ export type PoolOptions = Readonly<{
 export const defaultPoolOptions: PoolOptions = {
   initDeadline: 10_000,
   jobDeadline: 10_000,
-  threadCount: navigator.hardwareConcurrency,
+  // we cap at 8 threads by default to avoid limits imposed by browsers:
+  // https://stackoverflow.com/questions/13574158/number-of-web-workers-limit
+  threadCount: Math.max(navigator.hardwareConcurrency, 8),
 };
 
 type ThreadWithStatus<I, O> = { thread: Thread<I, O>; busy: boolean };

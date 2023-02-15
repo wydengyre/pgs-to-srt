@@ -23,6 +23,10 @@ export async function* ocr(
   const pool = await Pool.create<Unrendered, string>(
     workerSpecifier,
     { wasmBinary, trainedData },
+    // at the time of this comment, it was experimentally determined that 4
+    // threads performs significantly better than 8 in Safari, with little
+    // cost in Chrome and no notable cost in Firefox
+    { threadCount: Math.max(navigator.hardwareConcurrency, 4) }
   );
 
   try {
