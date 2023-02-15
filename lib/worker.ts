@@ -24,6 +24,13 @@ const logToStderr = (msg: string): void => {
   logToFakeStream(stderr, msg);
 };
 
+// Because our event handlers are async, this is crucial:
+// it ensures that errors within the event handlers produce
+// a standard "error" event.
+self.onunhandledrejection = (e: PromiseRejectionEvent) => {
+  throw e.reason;
+}
+
 self.onmessage = async (e: MessageEvent) => {
   let initPromise: Promise<void>;
   self.onmessage = async (e: MessageEvent) => {
