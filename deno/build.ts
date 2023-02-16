@@ -8,7 +8,10 @@ const tesseractWasmPath = configPath("tesseractWasm");
 
 const bundleDistDir = configPath("bundleDistDir");
 const mainBundlePath = path.join(bundleDistDir, configVal("mainBundle"));
-const workerBundlePath = path.join(bundleDistDir, configVal("workerBundle"));
+export const workerBundlePath = path.join(
+  bundleDistDir,
+  configVal("workerBundle"),
+);
 const tesseractWasmBundlePath = path.join(
   bundleDistDir,
   configVal("tesseractWasmBundle"),

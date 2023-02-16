@@ -29,7 +29,7 @@ const logToStderr = (msg: string): void => {
 // a standard "error" event.
 self.onunhandledrejection = (e: PromiseRejectionEvent) => {
   throw e.reason;
-}
+};
 
 self.onmessage = async (e: MessageEvent) => {
   let initPromise: Promise<void>;
