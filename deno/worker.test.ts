@@ -1,11 +1,8 @@
 import { toFileUrl } from "std/path/mod.ts";
-import { workerBundlePath } from "../deno/build.ts";
+import { workerBundlePath } from "./build.ts";
 import { deferred } from "std/async/deferred.ts";
 import { deadline } from "std/async/deadline.ts";
 import { assertStrictEquals } from "std/testing/asserts.ts";
-
-// this test requires a compiled worker.js file
-// running it with worker.ts runs unncessary checks, tried to download libs, etc.
 
 Deno.test("worker.js reports back init errors", async () => {
   const workerUrl = toFileUrl(workerBundlePath);

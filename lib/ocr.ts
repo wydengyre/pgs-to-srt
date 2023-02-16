@@ -26,10 +26,7 @@ export async function* ocr(
   const maxThreads = 4;
   const threadCount = Math.min(navigator.hardwareConcurrency, maxThreads);
 
-  // This deadline seems unreasonably high, but for now tests running on
-  // ci seem to require it. This looks like it's because ci is still checking
-  // worker.ts rather than loading worker.js without a check.
-  const deadlinePerThreadMs = 2_000;
+  const deadlinePerThreadMs = 1_000;
   const initDeadline = threadCount * deadlinePerThreadMs;
   const pool = await Pool.create<Unrendered, string>(
     workerSpecifier,
