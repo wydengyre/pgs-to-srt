@@ -44,11 +44,23 @@ export class Pool<I, O> {
     // 2. As of this comment, we can't compile to a WebAssembly.Module and pass it off to the tesseract lib /
     // emscripten. This would be the preferable approach, saving us from repeating the initialization in our workers.
     const threads = Array(threadCount);
-    for (let i = 0; i < threadCount; i++) {
-      threads[i] = await deadline(
-        Thread.spawn<I, O>(workerSpecifier, initData),
-        initDeadline,
-      );
+
+    let i = 0;
+    try {
+      await deadline((async () => {
+        for (; i < threadCount; i++) {
+          threads[i] = await Thread.spawn<I, O>(workerSpecifier, initData);
+        }
+      })(), initDeadline);
+    } catch (e: unknown) {
+      for (let j = 0; j < i; j++) {
+        threads[j].kill();
+      }
+      if (e instanceof Error && e.name === "DeadlineError") {
+        throw Error(`Failed to initialize thread pool within ${initDeadline}ms, frozen on thread ${i + 1}`,
+          {cause: e});
+      }
+      throw e;
     }
 
     return new this(threads, jobDeadline);
