@@ -20,13 +20,21 @@ export async function* ocr(
   const [unrendered1, unrendered2] = tee(unrendered);
   const iter = unrendered2[Symbol.asyncIterator]();
 
+  // at the time of this comment, it was experimentally determined that 4
+  // threads performs significantly better than 8 in Safari, with little
+  // cost in Chrome and no notable cost in Firefox
+  const maxThreads = 4;
+  const threadCount = Math.min(navigator.hardwareConcurrency, maxThreads);
+
+  // This deadline seems unreasonably high, but for now tests running on
+  // ci seem to require it. This looks like it's because ci is still checking
+  // worker.ts rather than loading worker.js without a check.
+  const deadlinePerThreadMs = 2_000;
+  const initDeadline = threadCount * deadlinePerThreadMs;
   const pool = await Pool.create<Unrendered, string>(
     workerSpecifier,
     { wasmBinary, trainedData },
-    // at the time of this comment, it was experimentally determined that 4
-    // threads performs significantly better than 8 in Safari, with little
-    // cost in Chrome and no notable cost in Firefox
-    { threadCount: Math.max(navigator.hardwareConcurrency, 4) }
+    { threadCount, initDeadline }
   );
 
   try {
