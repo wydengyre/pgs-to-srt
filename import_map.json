@@ -5,7 +5,8 @@
     "esbuild": "https://deno.land/x/esbuild@v0.17.10/mod.js",
     "esbuild_plugin_deno_loader": "https://deno.land/x/esbuild_deno_loader@0.6.0/mod.ts",
     "iso6393": "https://esm.sh/iso-639-3@3.0.1",
-    "std/": "https://deno.land/std@0.177.0/",
+    "std/": "https://deno.land/std@0.178.0/",
+    "node/": "https://deno.land/std@0.177.0/node/",
     "zod": "https://deno.land/x/zod@v3.20.5/mod.ts"
   }
 }
