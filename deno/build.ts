@@ -1,6 +1,6 @@
 import * as path from "std/path/mod.ts";
 import { configPath, configVal } from "./build-config.ts";
-import * as esbuild from "https://deno.land/x/esbuild@v0.17.7/mod.js";
+import * as esbuild from "esbuild";
 
 const mainPath = configPath("main");
 const workerPath = configPath("worker");
