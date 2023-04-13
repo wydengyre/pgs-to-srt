@@ -1,6 +1,7 @@
 // Copyright (C) 2023 Wyden and Gyre, LLC
 // hacked together from https://github.com/wydengyre/bitmap
-import { Buffer } from "node/buffer.ts";
+
+import { Buffer } from "node:buffer";
 
 class BitmapEncoder {
   buffer: Buffer;
