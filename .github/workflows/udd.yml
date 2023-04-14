@@ -9,7 +9,7 @@ jobs:
   udd:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@83b7061638ee4956cf7545a6f7efe594e5ad0247 # master
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # master
       - uses: denoland/setup-deno@9db7f66e8e16b5699a514448ce994936c63f0d54 # v1.1.1
       - uses: extractions/setup-just@69d82fb0233557aec017ef13706851d0694e0f1d # v1.6.0
         with:
