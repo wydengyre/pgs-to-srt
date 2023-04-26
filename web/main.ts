@@ -14,7 +14,7 @@ import {
 
 // TODO: get this value from config. Right now it breaks esbuild with
 // The file "conf.json" was loaded with the "js" loader
-const WORKER_URL = new URL("worker.js", window.location.href);
+const WORKER_URL = new URL("worker.mjs", window.location.href);
 
 const SCROLL_INTO_VIEW_OPTIONS: ScrollIntoViewOptions = {
   behavior: "smooth",

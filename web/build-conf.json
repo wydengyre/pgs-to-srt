@@ -10,7 +10,7 @@
   "worker": "../lib/worker.ts",
   "outLibFile": "lib.js",
   "outMainFile": "main.mjs",
-  "outWorkerFile": "worker.js",
+  "outWorkerFile": "worker.mjs",
 
   "canonicalHome": "https://pgs-to-srt.com"
 }
