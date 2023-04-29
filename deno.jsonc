@@ -1,3 +1,9 @@
 {
-  "importMap": "import_map.json"
+  "importMap": "import_map.json",
+  // TODO: Remove this once we replace Deno.run with Deno.Command
+  "lint": {
+    "rules": {
+      "exclude": ["no-deprecated-deno-api"]
+    }
+  }
 }
