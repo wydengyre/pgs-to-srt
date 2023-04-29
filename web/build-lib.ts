@@ -35,6 +35,7 @@ async function main() {
     },
     package: {
       name: "pgs-to-srt-web-lib",
+      version: "0.0.1",
     },
     // this typecheck will be performed when we compile main.ts,
     // because we include the "canonical" TS directly
@@ -53,7 +54,7 @@ export async function bundleDenoTs(
   outfile: string,
   format: "esm" | "iife",
 ) {
-  const buildOptions = {
+  const buildOptions: esbuild.BuildOptions = {
     bundle: true,
     entryPoints: [sourcePath],
     format: format,
