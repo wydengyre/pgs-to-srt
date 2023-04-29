@@ -1,4 +1,4 @@
-import { denoPlugin } from "esbuild_plugin_deno_loader";
+import { denoPlugins } from "esbuild_plugin_deno_loader";
 import * as esbuild from "esbuild";
 import { configPath, configVal } from "./build-conf.ts";
 import * as path from "std/path/mod.ts";
@@ -9,7 +9,6 @@ export { workerBuildPath };
 
 const IMPORT_MAP_PATH_REL = "../import_map.json";
 const importMapPath = import.meta.resolve(IMPORT_MAP_PATH_REL);
-const importMapURL = new URL(importMapPath);
 
 // the shim is needed for the worker to work sa non-module (IIFE), which is needed for Firefox
 const urlShimPath = fromFileUrl(
@@ -60,7 +59,7 @@ export async function bundleDenoTs(
     format: format,
     minify: true,
     outfile,
-    plugins: [denoPlugin({ importMapURL })],
+    plugins: denoPlugins(),
     sourcemap: true,
   };
   if (format === "iife") {
