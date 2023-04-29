@@ -55,7 +55,7 @@ web-install-deps:
 
 # build for the web
 web-build:
-    deno run --allow-env --allow-net --allow-read --allow-write --allow-run web/build.ts
+    deno run --check=all --allow-env --allow-net --allow-read --allow-write --allow-run web/build.ts
 
 # run development web server for local QA
 web-serve:

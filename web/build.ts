@@ -60,7 +60,7 @@ async function main() {
   const mainPath = configPath("main");
   const outMainFile = configVal("outMainFile");
   const outfile = path.join(distDir, outMainFile);
-  const buildOptions = {
+  const buildOptions: esbuild.BuildOptions = {
     bundle: true,
     entryPoints: [mainPath],
     format: "esm",
