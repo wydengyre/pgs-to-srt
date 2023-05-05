@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # master
       - uses: denoland/setup-deno@61fe2df320078202e33d7d5ad347e7dcfa0e8f31 # v1.1.2
         with:
-          deno-version: 1.33.1
+          deno-version: 1.33.2
       - uses: extractions/setup-just@69d82fb0233557aec017ef13706851d0694e0f1d # v1.6.0
         with:
           just-version: '1.13.0'
