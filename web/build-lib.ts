@@ -25,7 +25,7 @@ async function main() {
   const buildNodePackageDir = configPath("buildNodePackageDir");
   await dnt.build({
     compilerOptions: {
-      lib: ["dom", "esnext"],
+      lib: ["DOM", "ESNext"],
     },
     entryPoints: [libPath],
     importMap: importMapPath,
