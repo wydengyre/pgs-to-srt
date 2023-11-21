@@ -9,7 +9,7 @@
     "@sentry/tracing": "^7.36.0"
   },
   "devDependencies": {
-    "@tsconfig/recommended": "^1.0.2",
+    "@tsconfig/recommended": "^1.0.3",
     "@types/gtag.js": "^0.0.12",
     "typescript": "^5.3.2"
   }
