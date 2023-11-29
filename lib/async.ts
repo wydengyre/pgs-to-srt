@@ -1,6 +1,5 @@
 // Copyright (C) 2023 Wyden and Gyre, LLC
 import { deadline } from "std/async/deadline.ts";
-import { deferred } from "std/async/deferred.ts";
 
 export const ERROR_WHILE_MAPPING_MESSAGE = "Threw while mapping.";
 
@@ -103,19 +102,21 @@ export class Thread<I, O> {
     initMessage: unknown,
   ): Promise<Thread<I, O>> {
     const w = new Worker(workerSpecifier, { type: "module" });
-    const p = deferred<Thread<I, O>>();
-    w.onmessage = () => p.resolve(new Thread(w));
-    w.onerror = p.reject;
-    w.onmessageerror = p.reject;
+    const p = new Promise<Thread<I, O>>((resolve, reject) => {
+      w.onmessage = () => resolve(new Thread(w));
+      w.onerror = reject;
+      w.onmessageerror = reject;
+    });
     w.postMessage(initMessage);
     return p;
   }
 
   process(data: I): Promise<O> {
-    const p = deferred<O>();
-    this.#worker.onmessage = ({ data }) => p.resolve(data);
-    this.#worker.onerror = p.reject;
-    this.#worker.onmessageerror = p.reject;
+    const p = new Promise<O>((resolve, reject) => {
+      this.#worker.onmessage = ({ data }) => resolve(data);
+      this.#worker.onerror = reject;
+      this.#worker.onmessageerror = reject;
+    });
     this.#worker.postMessage(data);
     return p;
   }
