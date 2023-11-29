@@ -180,6 +180,7 @@
     "https://deno.land/std@0.208.0/async/deadline.ts": "58f72a3cc0fcb731b2cc055ba046f4b5be3349ff6bf98f2e793c3b969354aab2",
     "https://deno.land/std@0.208.0/async/deferred.ts": "a9d1e54c29a9ce8d949cc82e1e6cd901fa3f4d80ca8a2c5c6d2981d77ae798ca",
     "https://deno.land/std@0.208.0/async/delay.ts": "a6142eb44cdd856b645086af2b811b1fcce08ec06bb7d50969e6a872ee9b8659",
+    "https://deno.land/std@0.208.0/async/pool.ts": "47c1841cfa9c036144943d11747ddd44064f5baf8cb7ece25473ba873c6aceb0",
     "https://deno.land/std@0.208.0/async/tee.ts": "47e42d35f622650b02234d43803d0383a89eb4387e1b83b5a40106d18ae36757",
     "https://deno.land/std@0.208.0/bytes/copy.ts": "939d89e302a9761dcf1d9c937c7711174ed74c59eef40a1e4569a05c9de88219",
     "https://deno.land/std@0.208.0/fs/_util.ts": "fbf57dcdc9f7bc8128d60301eece608246971a7836a3bb1e78da75314f08b978",
