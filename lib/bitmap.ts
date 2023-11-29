@@ -46,7 +46,7 @@ class BitmapEncoder {
   }
 
   encode() {
-    var tempBuffer = new Buffer(this.offset + this.rgbSize);
+    let tempBuffer = new Buffer(this.offset + this.rgbSize);
     this.pos = 0;
     tempBuffer.write(this.flag, this.pos, 2);
     this.pos += 2;
@@ -80,19 +80,19 @@ class BitmapEncoder {
     tempBuffer.writeUInt32LE(this.importantColors, this.pos);
     this.pos += 4;
 
-    var i = 0;
-    var rowBytes = 3 * this.width + this.extraBytes;
+    let i = 0;
+    const rowBytes = 3 * this.width + this.extraBytes;
 
-    for (var y = 0; y < this.height; y++) {
-      for (var x = 0; x < this.width; x++) {
-        var p = this.pos + y * rowBytes + x * 3;
+    for (let y = 0; y < this.height; y++) {
+      for (let x = 0; x < this.width; x++) {
+        const p = this.pos + y * rowBytes + x * 3;
         i++;
         tempBuffer[p] = this.buffer[i++];
         tempBuffer[p + 1] = this.buffer[i++];
         tempBuffer[p + 2] = this.buffer[i++];
       }
       if (this.extraBytes > 0) {
-        var fillOffset = this.pos + y * rowBytes + this.width * 3;
+        const fillOffset = this.pos + y * rowBytes + this.width * 3;
         tempBuffer.fill(0, fillOffset, fillOffset + this.extraBytes);
       }
     }
