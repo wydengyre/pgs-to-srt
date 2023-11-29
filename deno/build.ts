@@ -1,10 +1,14 @@
 import * as path from "std/path/mod.ts";
 import { configPath, configVal } from "./build-config.ts";
 import * as esbuild from "esbuild";
+import { denoPlugins } from "esbuild_plugin_deno_loader";
 
 const mainPath = configPath("main");
 const workerPath = configPath("worker");
 const tesseractWasmPath = configPath("tesseractWasm");
+
+const IMPORT_MAP_PATH_REL = "../import_map.json";
+const importMapPath = import.meta.resolve(IMPORT_MAP_PATH_REL);
 
 const bundleDistDir = configPath("bundleDistDir");
 const mainBundlePath = path.join(bundleDistDir, configVal("mainBundle"));
@@ -32,29 +36,20 @@ async function main() {
 
 // TODO: consider a timeout using an abort signal
 async function denoBundle(inPath: string, outPath: string) {
-  const cmd = new Deno.Command("deno", {
-    args: ["bundle", inPath],
-    cwd: path.fromFileUrl(import.meta.resolve("../")),
-  });
-  const { success, code, stdout, stderr } = await cmd.output();
-  if (!success) {
-    const err = new TextDecoder().decode(stderr);
-    throw `bundling file ${inPath} to ${outPath} failed with code ${code}: ${err}`;
-  }
-
-  const outText = new TextDecoder().decode(stdout);
-  const cleanedImportMeta = cleanImportMeta(outText);
-
-  const buildOptions: esbuild.TransformOptions = {
+  const buildOptions: esbuild.BuildOptions = {
+    bundle: true,
+    entryPoints: [inPath],
+    format: "esm",
+    minify: true,
+    outfile: outPath,
+    plugins: denoPlugins({ importMapURL: importMapPath }),
     treeShaking: true,
   };
-  const build = await esbuild.transform(cleanedImportMeta, buildOptions);
+  const build = await esbuild.build(buildOptions);
   esbuild.stop();
   if (build.warnings.length > 0) {
     throw `Warnings from esbuild: ${build.warnings}`;
   }
-
-  await Deno.writeTextFile(outPath, build.code);
 }
 
 // TODO: consider a timeout using an abort signal
@@ -74,19 +69,6 @@ async function zip(fromPath: string, inPath: string, outPath: string) {
   if (!success) {
     throw `zipping ${inPath} to ${outPath} failed with code ${code}`;
   }
-}
-
-// The Deno bundler unnecessarily adds an importMeta.url property that leaks details about the build path
-// Sadly, we still need importMeta.url because emscripten uses import.meta.url to construct a URL
-// that ultimately doesn't get used, so we need to swap in a dummy value.
-function cleanImportMeta(bundledCode: string): string {
-  const importMetaUrlRegex = /^(const importMeta = {\n\s*url:)(.+)(,)$/m;
-  const found = importMetaUrlRegex.test(bundledCode);
-  if (!found) {
-    throw "Failed to find importMeta.url";
-  }
-
-  return bundledCode.replace(importMetaUrlRegex, '$1"file://"$3');
 }
 
 if (import.meta.main) {
