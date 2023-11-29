@@ -1,6 +1,5 @@
 // Copyright (C) 2023 Wyden and Gyre, LLC
-import { assertStrictEquals } from "https://deno.land/std@0.97.0/testing/asserts.ts";
-import { assertEquals } from "std/testing/asserts.ts";
+import { assertEquals, assertStrictEquals } from "std/testing/asserts.ts";
 import { getTestPath } from "./test-path.ts";
 
 const execPath = Deno.execPath();
