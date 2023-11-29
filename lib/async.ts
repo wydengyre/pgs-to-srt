@@ -1,5 +1,6 @@
 // Copyright (C) 2023 Wyden and Gyre, LLC
 import { deadline } from "std/async/deadline.ts";
+import { pooledMap } from "std/async/pool.ts";
 
 export const ERROR_WHILE_MAPPING_MESSAGE = "Threw while mapping.";
 
@@ -123,92 +124,5 @@ export class Thread<I, O> {
 
   kill(): void {
     this.#worker.terminate();
-  }
-}
-
-// sadly we have to do a lot of copy-pasta here because the line at the end
-// explodes in Chrome 103 (async iteration on ReadableStream is not supported)
-// see https://bugs.chromium.org/p/chromium/issues/detail?id=929585
-function pooledMap<T, R>(
-  poolLimit: number,
-  array: Iterable<T> | AsyncIterable<T>,
-  iteratorFn: (data: T) => Promise<R>,
-): AsyncIterableIterator<R> {
-  // Create the async iterable that is returned from this function.
-  const res = new TransformStream<Promise<R>, R>({
-    async transform(
-      p: Promise<R>,
-      controller: TransformStreamDefaultController<R>,
-    ) {
-      try {
-        const s = await p;
-        controller.enqueue(s);
-      } catch (e) {
-        if (
-          e instanceof AggregateError &&
-          e.message == ERROR_WHILE_MAPPING_MESSAGE
-        ) {
-          controller.error(e as unknown);
-        }
-      }
-    },
-  });
-  // Start processing items from the iterator
-  (async () => {
-    const writer = res.writable.getWriter();
-    const executing: Array<Promise<unknown>> = [];
-    try {
-      for await (const item of array) {
-        const p = Promise.resolve().then(() => iteratorFn(item));
-        // Only write on success. If we `writer.write()` a rejected promise,
-        // that will end the iteration. We don't want that yet. Instead let it
-        // fail the race, taking us to the catch block where all currently
-        // executing jobs are allowed to finish and all rejections among them
-        // can be reported together.
-        writer.write(p);
-        const e: Promise<unknown> = p.then(() =>
-          executing.splice(executing.indexOf(e), 1)
-        );
-        executing.push(e);
-        if (executing.length >= poolLimit) {
-          await Promise.race(executing);
-        }
-      }
-      // Wait until all ongoing events have processed, then close the writer.
-      await Promise.all(executing);
-      writer.close();
-    } catch {
-      const errors = [];
-      for (const result of await Promise.allSettled(executing)) {
-        if (result.status == "rejected") {
-          errors.push(result.reason);
-        }
-      }
-      writer.write(Promise.reject(
-        new AggregateError(errors, ERROR_WHILE_MAPPING_MESSAGE),
-      )).catch(() => {});
-    }
-  })();
-  return streamAsyncIterator(res.readable);
-}
-
-// from https://jakearchibald.com/2017/async-iterators-and-generators/#making-streams-iterate
-async function* streamAsyncIterator<T>(
-  stream: ReadableStream<T>,
-): AsyncIterableIterator<T> {
-  // Get a lock on the stream
-  const reader = stream.getReader();
-
-  try {
-    while (true) {
-      // Read from the stream
-      const { done, value } = await reader.read();
-      // Exit if we're done
-      if (done) return;
-      // Else yield the chunk
-      yield value;
-    }
-  } finally {
-    reader.releaseLock();
   }
 }
