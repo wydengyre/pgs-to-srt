@@ -40,7 +40,7 @@ lint:
 
 # check web types
 web-check-lib:
-    deno check --config web/deno.jsonc web/lib.ts
+    deno check --config web/deno.json web/lib.ts
 
 # build web libs
 web-build-lib:
