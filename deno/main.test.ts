@@ -1,6 +1,5 @@
 // Copyright (C) 2023 Wyden and Gyre, LLC
 import { assertStrictEquals } from "https://deno.land/std@0.97.0/testing/asserts.ts";
-import { writeAll } from "std/streams/write_all.ts";
 import { assertEquals } from "std/testing/asserts.ts";
 import { getTestPath } from "./test-path.ts";
 
@@ -30,9 +29,8 @@ Deno.test("bmp image extraction", async () => {
 
   const outBmp = await Deno.readFile(outBmpPath);
 
-  const p = Deno.run({
-    cmd: [
-      execPath,
+  const p = new Deno.Command(execPath, {
+    args: [
       "run",
       "--allow-read",
       runPath,
@@ -42,11 +40,9 @@ Deno.test("bmp image extraction", async () => {
     stderr: "inherit",
     stdout: "piped",
   });
-  const runPromise = Promise.all([p.status(), p.output()]);
-  const [status, stdout] = await runPromise;
-  p.close();
+  const { code, stdout } = await p.output();
 
-  assertStrictEquals(status.code, 0);
+  assertStrictEquals(code, 0);
   assertEquals(stdout, outBmp);
 });
 
@@ -63,9 +59,8 @@ async function testConvert(
   const expectedSrt = await Deno.readFile(expectedSrtPath);
 
   const start = performance.now();
-  const p = Deno.run({
-    cmd: [
-      execPath,
+  const p = new Deno.Command(execPath, {
+    args: [
       "run",
       "--allow-read",
       runPath,
@@ -75,20 +70,16 @@ async function testConvert(
     stderr: "inherit",
     stdout: "piped",
     stdin: useStdin ? "piped" : undefined,
-  });
+  }).spawn();
 
   if (useStdin) {
     const inSup = await Deno.readFile(inSupPath);
-    const stdin = p.stdin!;
-    await writeAll(stdin, inSup);
-    stdin.close();
+    new Blob([inSup]).stream().pipeTo(p.stdin).then();
   }
-  const runPromise = Promise.all([p.status(), p.output()]);
-  const [status, stdout] = await runPromise;
-  p.close();
+  const { code, stdout } = await p.output();
   const end = performance.now();
   console.log(`\nran test in ${end - start}`);
 
-  assertStrictEquals(status.code, 0);
+  assertStrictEquals(code, 0);
   assertEquals(stdout, expectedSrt);
 }
