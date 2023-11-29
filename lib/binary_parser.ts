@@ -1,6 +1,3 @@
-// Copyright (C) 2023 Wyden and Gyre, LLC
-import { Buffer } from "std/io/buffer.ts";
-
 class Context {
   code = "";
   scopes = [["vars"]];
@@ -120,7 +117,7 @@ interface ParserOptions {
   type?: string | Parser;
   formatter?: (item: any) => any;
   encoding?: string;
-  readUntil?: "eof" | ((item: any, buffer: Buffer) => boolean);
+  readUntil?: "eof" | ((item: any, buffer: Uint8Array) => boolean);
   greedy?: boolean;
   choices?: { [key: number]: string | Parser };
   defaultChoice?: string | Parser;
@@ -130,7 +127,7 @@ interface ParserOptions {
   key?: string;
   tag?: string | ((item: any) => number);
   offset?: number | string | ((item: any) => number);
-  wrapper?: (buffer: Buffer) => Buffer;
+  wrapper?: (buffer: Uint8Array) => Uint8Array;
 }
 
 type Types = PrimitiveTypes | ComplexTypes;
@@ -895,7 +892,7 @@ export class Parser {
   }
 
   // Follow the parser chain till the root and start parsing from there
-  parse(buffer: Buffer | Uint8Array) {
+  parse(buffer: Uint8Array) {
     if (!this.compiled) {
       this.compile();
     }
