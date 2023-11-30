@@ -8,8 +8,8 @@ export type Config = {
   trainedDataPath: string;
   wasmPath: string;
   workerPath: string;
-  outWriter: Deno.Writer;
-  errWriter: Deno.Writer;
+  outWriter: WritableStream<Uint8Array>;
+  errWriter: WritableStream<Uint8Array>;
 };
 
 export async function runConvert(
