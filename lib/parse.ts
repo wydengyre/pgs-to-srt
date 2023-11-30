@@ -75,7 +75,7 @@ const pds = new Parser()
 
 const ods = new Parser()
   .uint16("id")
-  .uint8("version")
+  .skip(1) // version number is unused
   .uint8("lastInSequenceFlag")
   .buffer("dataLength", { length: 3 })
   .uint16("width")
