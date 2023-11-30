@@ -41,8 +41,6 @@ const odsSchema = z.object({
   id: z.number(),
   width: z.number(),
   height: z.number(),
-  dataLengthFirst: z.number(),
-  dataLengthRest: z.number(),
   data: z.instanceof(Uint8Array),
 });
 export type Ods = z.infer<typeof odsSchema>;
