@@ -90,12 +90,12 @@ test: unit-test end-to-end-test
 
 # run unit tests
 unit-test:
-	deno test --check=all --unstable --allow-read --allow-write --allow-run --parallel deno
+	deno test --check=all --allow-read --allow-write --allow-run --parallel deno
 
 # run end-to-end deno testing
 end-to-end-test:
-	deno test --check=all --unstable --allow-read --allow-write --allow-run deno-test
+	deno test --check=all --allow-read --allow-write --allow-run deno-test
 
 # build for deno distribution
 build:
-    deno run --check=all --unstable --allow-env --allow-net --allow-read --allow-run --allow-write deno/build.ts
+    deno run --check=all --allow-env --allow-net --allow-read --allow-run --allow-write deno/build.ts
