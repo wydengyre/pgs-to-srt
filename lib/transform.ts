@@ -190,23 +190,20 @@ async function* packetizeSegments(
 
     switch (seg.type) {
       case $pcs: {
-        // have encountered series of segments without ods at beginning of stream
-        if (currentSegment === null || currentSegment.ods.size === 0) {
-          currentSegment = {
-            offset: currentOffset,
-            startTime: pts,
-            endTime: pts,
-            width: seg.width,
-            height: seg.height,
-            paletteId: seg.paletteId,
-            compositions: seg.compositions,
-            pds: new Map(),
-            ods: new Map(),
-          };
-        } else {
+        if (currentSegment !== null) {
           yield currentSegment;
-          currentSegment = null;
         }
+        currentSegment = {
+          offset: currentOffset,
+          startTime: pts,
+          endTime: pts,
+          width: seg.width,
+          height: seg.height,
+          paletteId: seg.paletteId,
+          compositions: seg.compositions,
+          pds: new Map(),
+          ods: new Map(),
+        };
         break;
       }
       case $pds: {
