@@ -60,7 +60,7 @@ const wds = new Parser()
 
 const pds = new Parser()
   .uint8("id")
-  .uint8("versionNumber")
+  .skip(1) // version number unused
   .array("palette", {
     lengthInBytes: function (this: { $parent: { header: { size: number } } }) {
       return this.$parent.header.size - 2;

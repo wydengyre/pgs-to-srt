@@ -25,7 +25,6 @@ type Pcs = z.infer<typeof pcsSchema>;
 
 const pdsSchema = z.object({
   id: z.number(),
-  versionNumber: z.number(),
   palette: z.array(z.object({
     id: z.number(),
     y: z.number(),
