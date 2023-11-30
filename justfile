@@ -90,7 +90,7 @@ test: unit-test end-to-end-test
 
 # run unit tests
 unit-test:
-	deno test --check=all --unstable --allow-read --allow-write --allow-run deno
+	deno test --check=all --unstable --allow-read --allow-write --allow-run --parallel deno
 
 # run end-to-end deno testing
 end-to-end-test:

@@ -20,7 +20,7 @@ Deno.test("worker.js reports back init errors", async () => {
   const wasmBinary = new Uint8Array();
   w.postMessage({ trainedData, wasmBinary });
 
-  const TIMEOUT_MS = 50; // might need to adjust if ci is too slow
+  const TIMEOUT_MS = 100; // might need to adjust if ci is too slow
   const err: ErrorEvent = await deadline(d, TIMEOUT_MS);
 
   const expectedFilename = workerUrl.toString();

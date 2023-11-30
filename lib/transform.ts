@@ -38,6 +38,8 @@ type PgsPalette = Pds["palette"];
 
 const odsSchema = z.object({
   id: z.number(),
+  lastInSequenceFlag: z.number(),
+  dataLength: z.instanceof(Uint8Array),
   width: z.number(),
   height: z.number(),
   data: z.instanceof(Uint8Array),
@@ -205,18 +207,31 @@ async function* packetizeSegments(
       }
       case $pds: {
         const rgbaPalette = mkRgbaPalette(seg.palette);
-        if (currentSegment === null) {
-          throw "PDS encountered without current segment defined. Programmer error.";
-        }
-        currentSegment.pds.set(seg.id, rgbaPalette);
+        currentSegment!.pds.set(seg.id, rgbaPalette);
         break;
       }
       case $ods: {
+        if (!(seg.lastInSequenceFlag & 0x80)) {
+          // not first in sequence: we're adding more data to a previous ODS
+          const ods = currentSegment!.ods.get(seg.id)!;
+          // sadly our parser doesn't support conditions
+          ods.data = new Uint8Array([
+            ...ods.data,
+            ...seg.dataLength,
+            seg.width >> 8,
+            seg.width & 0xff,
+            seg.height >> 8,
+            seg.height & 0xff,
+            ...seg.data]);
+          break;
+        }
+
         const ods = {
           width: seg.width,
           height: seg.height,
           data: seg.data,
         };
+
         currentSegment!.ods.set(seg.id, ods);
         break;
       }
