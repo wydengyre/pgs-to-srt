@@ -33,6 +33,14 @@ Deno.test("convert 04e07.sup", () => {
   );
 });
 
+Deno.test("convert immunity.sup", () => {
+  return testConversion(
+    "eng.fast.traineddata",
+    "immunity.sup",
+    null,
+  );
+});
+
 async function testConversion(
   lang: string,
   inSupFileName: string,
