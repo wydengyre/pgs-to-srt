@@ -23,19 +23,31 @@ Deno.test("convert lostillusions.first100.fr.sup", () => {
   );
 });
 
+Deno.test("convert 04e07.sup", () => {
+  return testConversion(
+    // it's in German, but we just want to test that conversion doesn't crash
+    "eng.fast.traineddata",
+    "04e07.sup",
+    null,
+    /7 blank subtitles at indices 92, 109, 112, 305, 337, 341, 364\n$/,
+  );
+});
+
 async function testConversion(
   lang: string,
   inSupFileName: string,
-  outSrtFileName: string,
+  outSrtFileName: string | null,
   stdErrRegex?: RegExp,
 ) {
   const trainedDataPath = getTestPath(lang);
   const inSupPath = getTestPath(inSupFileName);
-  const outSrtPath = getTestPath(outSrtFileName);
-  const [inSup, outSrt] = await Promise.all([
-    Deno.readFile(inSupPath),
-    Deno.readFile(outSrtPath),
-  ]);
+  const inSup = await Deno.readFile(inSupPath);
+
+  let outSrt: Uint8Array | null = null;
+  if (outSrtFileName !== null) {
+    const outSrtPath = getTestPath(outSrtFileName);
+    outSrt = await Deno.readFile(outSrtPath);
+  }
 
   const outBuffer = new Buffer();
   const errBuffer = new Buffer();
@@ -46,9 +58,10 @@ async function testConversion(
     outWriter: outBuffer,
     errWriter: errBuffer,
   });
-  const outBytes = outBuffer.bytes({ copy: false });
-
-  assertEquals(outBytes, outSrt);
+  if (outSrt !== null) {
+    const outBytes = outBuffer.bytes({ copy: false });
+    assertEquals(outBytes, outSrt);
+  }
 
   const td = new TextDecoder();
   const stdErrStr = td.decode(errBuffer.bytes({ copy: false }));
