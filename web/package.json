@@ -6,7 +6,7 @@
   "author": "Matthew Leon <matt@wydengyre.com>",
   "dependencies": {
     "@sentry/browser": "^7.85.0",
-    "@sentry/tracing": "^7.84.0"
+    "@sentry/tracing": "^7.85.0"
   },
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.3",
