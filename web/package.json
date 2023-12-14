@@ -5,7 +5,7 @@
   "main": "main.ts",
   "author": "Matthew Leon <matt@wydengyre.com>",
   "dependencies": {
-    "@sentry/browser": "^7.86.0",
+    "@sentry/browser": "^7.87.0",
     "@sentry/tracing": "^7.87.0"
   },
   "devDependencies": {
