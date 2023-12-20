@@ -5,8 +5,8 @@
   "main": "main.ts",
   "author": "Matthew Leon <matt@wydengyre.com>",
   "dependencies": {
-    "@sentry/browser": "^7.88.0",
-    "@sentry/tracing": "^7.87.0"
+    "@sentry/browser": "^7.89.0",
+    "@sentry/tracing": "^7.89.0"
   },
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.3",
