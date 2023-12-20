@@ -1,6 +1,5 @@
 // Copyright (C) 2023 Wyden and Gyre, LLC
 import * as Sentry from "@sentry/browser";
-import { BrowserTracing } from "@sentry/tracing";
 
 // by importing from the "canonical" TS, we don't need to play with
 // npm link, or performing npm install every time we update the source,
@@ -70,7 +69,7 @@ Sentry.init({
   // Alternatively, use `process.env.npm_package_version` for a dynamic release version
   // if your build tool supports it.
   release: "pgs-to-srt-noversion",
-  integrations: [new BrowserTracing()],
+  integrations: [new Sentry.BrowserTracing()],
 
   // Set tracesSampleRate to 1.0 to capture 100%
   // of transactions for performance monitoring.
