@@ -1,17 +1,22 @@
 import { toFileUrl } from "std/path/mod.ts";
 import { workerBundlePath } from "./build.ts";
-import { deferred } from "std/async/deferred.ts";
 import { deadline } from "std/async/deadline.ts";
 import { assertStrictEquals } from "std/testing/asserts.ts";
 
 Deno.test("worker.js reports back init errors", async () => {
   const workerUrl = toFileUrl(workerBundlePath);
 
-  const d = deferred<ErrorEvent>();
+  // see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/withResolvers
+  // TODO: at the time of writing, Safari does not support Promise.withResolvers. When it does, replace this.
+  let resolve: (value: ErrorEvent | PromiseLike<ErrorEvent>) => void;
+  const p = new Promise<ErrorEvent>((res) => {
+    resolve = res;
+  });
+
   const w = new Worker(workerUrl, { type: "module" });
   w.onerror = (e: ErrorEvent) => {
     e.preventDefault();
-    d.resolve(e);
+    resolve(e);
     w.terminate();
   };
 
@@ -21,7 +26,7 @@ Deno.test("worker.js reports back init errors", async () => {
   w.postMessage({ trainedData, wasmBinary });
 
   const TIMEOUT_MS = 100; // might need to adjust if ci is too slow
-  const err: ErrorEvent = await deadline(d, TIMEOUT_MS);
+  const err: ErrorEvent = await deadline(p, TIMEOUT_MS);
 
   const expectedFilename = workerUrl.toString();
   assertStrictEquals(err.filename, expectedFilename);
