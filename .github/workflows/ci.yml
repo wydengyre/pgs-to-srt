@@ -26,7 +26,7 @@ jobs:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - uses: extractions/setup-just@69d82fb0233557aec017ef13706851d0694e0f1d # v1.6.0
         with:
-          just-version: '1.17.0'
+          just-version: '1.18.1'
       - uses: denoland/setup-deno@0df5d9c641efdff149993c321fc27c11c5df8623 # v1.1.3
         with:
           deno-version: 1.39.1
