@@ -505,6 +505,7 @@
     "https://deno.land/std@0.210.0/path/windows/separator.ts": "ae21f27015f10510ed1ac4a0ba9c4c9c967cbdd9d9e776a3e4967553c397bd5d",
     "https://deno.land/std@0.210.0/path/windows/to_file_url.ts": "8e9ea9e1ff364aa06fa72999204229952d0a279dbb876b7b838b2b2fea55cce3",
     "https://deno.land/std@0.210.0/path/windows/to_namespaced_path.ts": "e0f4d4a5e77f28a5708c1a33ff24360f35637ba6d8f103d19661255ef7bfd50d",
+    "https://deno.land/std@0.210.0/streams/read_all.ts": "ce30cb93f0b7977f912d60a30f1766929c2891efdb44a2679cfbc25cf8c60184",
     "https://deno.land/std@0.210.0/streams/write_all.ts": "af86903af1ca8bc443bf615c2d3847afd2687ffc1b91c128e28461d5f4f86769",
     "https://deno.land/std@0.210.0/testing/asserts.ts": "605bbd2ef0695e2a4324d810c4ad22e56041d51afb9584fc0b4e81084b14b1d6",
     "https://deno.land/std@0.97.0/fmt/colors.ts": "db22b314a2ae9430ae7460ce005e0a7130e23ae1c999157e3bb77cf55800f7e4",
