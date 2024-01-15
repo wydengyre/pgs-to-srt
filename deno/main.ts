@@ -3,8 +3,8 @@ import { readAll } from "std/streams/read_all.ts";
 import { extractImage } from "./extract-image.ts";
 import { runConvert } from "./convert.ts";
 import * as path from "std/path/mod.ts";
-import buildConfig from "./build.json" assert { type: "json" };
-import devConfig from "./conf.dev.json" assert { type: "json" };
+import buildConfig from "./build.json" with { type: "json" };
+import devConfig from "./conf.dev.json" with { type: "json" };
 
 const USAGE = "[LANGUAGE | SUBTITLE_INDEX]";
 
