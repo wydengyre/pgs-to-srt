@@ -42,7 +42,6 @@ async function denoBundle(inPath: string, outPath: string) {
     format: "esm",
     minify: true,
     outfile: outPath,
-    // @ts-ignore: this constantly breaks with new esbuild releases
     plugins: denoPlugins({ importMapURL: importMapPath }),
     treeShaking: true,
   };

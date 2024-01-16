@@ -60,7 +60,6 @@ export async function bundleDenoTs(
     format: format,
     minify: true,
     outfile,
-    // @ts-ignore: this constantly breaks with new esbuild releases
     plugins: denoPlugins(),
     sourcemap: true,
   };
