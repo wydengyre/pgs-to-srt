@@ -1,5 +1,5 @@
 // Copyright (C) 2023 Wyden and Gyre, LLC
-import { writeAll } from "std/streams/write_all.ts";
+import { writeAll } from "std/io/mod.ts";
 import { Progress } from "../lib/pipeline.ts";
 
 export async function render(
