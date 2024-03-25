@@ -8,7 +8,7 @@
     "@sentry/browser": "^7.108.0"
   },
   "devDependencies": {
-    "@tsconfig/recommended": "^1.0.3",
+    "@tsconfig/recommended": "^1.0.4",
     "@types/gtag.js": "^0.0.19",
     "typescript": "^5.4.3"
   }
