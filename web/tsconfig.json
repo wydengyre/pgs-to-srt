@@ -1,9 +1,0 @@
-{
-  "extends": "@tsconfig/recommended/tsconfig.json",
-  "files": ["main.ts"],
-  "compilerOptions": {
-    "allowJs": true,
-    "noEmit": true,
-    "target": "esnext"
-  }
-}

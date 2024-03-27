@@ -1,4 +1,0 @@
-{
-  "wasmPath": "../deps/tesseract-wasm/tesseract-core.wasm",
-  "workerPath": "../build/deno/pgs-to-srt/worker.js"
-}

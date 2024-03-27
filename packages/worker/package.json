@@ -1,0 +1,17 @@
+{
+	"name": "@pgs-to-srt/worker",
+	"version": "0.0.1",
+	"private": true,
+	"scripts": {
+		"typecheck": "tsc"
+	},
+	"type": "module",
+	"devDependencies": {
+		"@tsconfig/strictest": "2.0.5",
+		"typescript": "5.4.5"
+	},
+	"dependencies": {
+		"comlink": "^4.4.1",
+		"zod": "^3.22.4"
+	}
+}

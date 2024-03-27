@@ -27,16 +27,5 @@ jobs:
       - uses: extractions/setup-just@dd310ad5a97d8e7b41793f8ef055398d51ad4de6 # v2.0.0
         with:
           just-version: 1.25.2
-      - uses: denoland/setup-deno@041b854f97b325bd60e53e9dc2de9cb9f9ac0cba # v1.1.4
-        with:
-          deno-version: 1.43.1
-
       - name: build and test
         run: just ci
-
-      - name: Archive artifact
-        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 #v3.2.1
-        with:
-          name: pgs-to-srt deno cli
-          path: dist/deno/pgs-to-srt.zip
-          retention-days: 7
