@@ -1,0 +1,22 @@
+{
+	"name": "@pgs-to-srt/lib",
+	"version": "0.0.1",
+	"private": true,
+	"scripts": {
+		"typecheck": "tsc"
+	},
+	"type": "module",
+	"devDependencies": {
+		"@tsconfig/strictest": "2.0.3",
+		"@types/bmp-js": "^0.1.2",
+		"typescript": "5.4.3"
+	},
+	"dependencies": {
+		"@pgs-to-srt/worker": "*",
+		"@supercharge/promise-pool": "^3.2.0",
+		"binary-parser": "^2.2.1",
+		"bmp-js": "0.1.0",
+		"comlink": "^4.4.1",
+		"p-timeout": "^6.1.2"
+	}
+}

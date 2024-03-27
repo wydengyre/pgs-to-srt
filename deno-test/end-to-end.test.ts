@@ -1,9 +1,9 @@
 // Copyright (C) 2023 Wyden and Gyre, LLC
 import * as path from "std/path/mod.ts";
 import { assertEquals, assertStrictEquals } from "std/testing/asserts.ts";
-import { getTestPath } from "../deno/test-path.ts";
-import { configPath, configVal } from "../deno/build-config.ts";
-import { run } from "../deno/build-util.ts";
+import { getTestPath } from "../packages/cli/test-path.ts";
+import { configPath, configVal } from "../packages/cli/build-config.ts";
+import { run } from "../packages/cli/build-util.ts";
 
 /**
  * Project must be built before running.

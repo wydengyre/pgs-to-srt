@@ -1,0 +1,6 @@
+{
+	"compilerOptions": {
+		"lib": ["dom", "dom.iterable", "deno.ns"]
+	},
+	"importMap": "../import_map.json"
+}

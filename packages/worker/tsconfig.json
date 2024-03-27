@@ -1,0 +1,13 @@
+{
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"extends": ["@tsconfig/strictest/tsconfig.json"],
+	"compilerOptions": {
+		"lib": ["ESNext", "WebWorker"],
+		"module": "nodenext",
+		"noEmit": true,
+
+		"allowJs": true,
+		"checkJs": false
+	},
+	"include": ["*.ts"]
+}
