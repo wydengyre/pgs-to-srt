@@ -1,3 +1,8 @@
+## Important note: seeking new maintainers
+
+I am no longer actively maintaining this project. If you are interested in taking over, please
+add an appropriate issue to this repo.
+
 # pgs-to-srt
 
 This repository is home to the source code of the website [pgs-to-srt.com](https://pgs-to-srt.com),
