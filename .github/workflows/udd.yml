@@ -10,7 +10,7 @@ jobs:
     timeout-minutes: 4
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@1d96c772d19495a3b5c517cd2bc0cb401ea0529f # master
+      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # master
       - uses: denoland/setup-deno@041b854f97b325bd60e53e9dc2de9cb9f9ac0cba # v1.1.4
         with:
           deno-version: 1.41.3
