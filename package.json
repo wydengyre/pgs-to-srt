@@ -1,0 +1,15 @@
+{
+	"name": "@pgs-to-srt/pgs-to-srt",
+	"version": "0.0.1",
+	"private": true,
+	"workspaces": ["packages/*"],
+	"scripts": {
+		"ci-lint": "biome ci .",
+		"lint": "biome check --apply .",
+		"prepare": "husky"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "1.7.2",
+		"husky": "9.0.11"
+	}
+}

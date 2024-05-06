@@ -1,0 +1,12 @@
+{
+	"main": "./main.ts",
+	"worker": "../lib/worker.ts",
+	"tesseractWasm": "../deps/tesseract-wasm/tesseract-core.wasm",
+
+	"bundleDistDir": "../build/deno/pgs-to-srt",
+	"mainBundle": "pgs-to-srt.js",
+	"workerBundle": "worker.js",
+	"tesseractWasmBundle": "tesseract-core.wasm",
+	"bundleZip": "../dist/deno/pgs-to-srt.zip",
+	"distPath": "../dist"
+}

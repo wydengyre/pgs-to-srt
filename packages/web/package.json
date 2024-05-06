@@ -1,0 +1,15 @@
+{
+	"name": "pgs-to-srt-web",
+	"version": "1.0.0",
+	"description": "",
+	"main": "main.ts",
+	"author": "Matthew Leon <matt@wydengyre.com>",
+	"dependencies": {
+		"@sentry/browser": "^7.108.0"
+	},
+	"devDependencies": {
+		"@tsconfig/recommended": "^1.0.4",
+		"@types/gtag.js": "^0.0.19",
+		"typescript": "^5.4.5"
+	}
+}
