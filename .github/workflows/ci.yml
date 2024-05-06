@@ -29,7 +29,7 @@ jobs:
           just-version: 1.23.0
       - uses: denoland/setup-deno@041b854f97b325bd60e53e9dc2de9cb9f9ac0cba # v1.1.4
         with:
-          deno-version: 1.41.3
+          deno-version: 1.43.1
 
       - name: build and test
         run: just ci
