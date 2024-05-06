@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Wyden and Gyre, LLC
+// Copyright (C) 2024 Wyden and Gyre, LLC
 import { assertEquals, assertStrictEquals } from "std/testing/asserts.ts";
 import { getTestPath } from "./test-path.ts";
 

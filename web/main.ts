@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Wyden and Gyre, LLC
+// Copyright (C) 2024 Wyden and Gyre, LLC
 import * as Sentry from "@sentry/browser";
 
 // by importing from the "canonical" TS, we don't need to play with

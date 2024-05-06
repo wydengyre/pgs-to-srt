@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Wyden and Gyre, LLC
+// Copyright (C) 2024 Wyden and Gyre, LLC
 /// <reference no-default-lib="true" />
 /// <reference lib="deno.worker" />
 

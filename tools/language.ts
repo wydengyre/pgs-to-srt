@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Wyden and Gyre, LLC
+// Copyright (C) 2024 Wyden and Gyre, LLC
 
 // a script used for fetching Tesserract language files
 import { iso6393 } from "iso6393";
