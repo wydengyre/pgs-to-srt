@@ -6,7 +6,7 @@ tesseractWasmUrl := "https://github.com/wydengyre/tesseract-wasm/releases/downlo
 tesseractWasmZipPath := "build/tesseract-wasm.zip"
 tesseractWasmFilesPath := "deps/tesseract-wasm"
 
-picoCssUrl := "https://github.com/picocss/pico/archive/refs/tags/v1.5.10.zip"
+picoCssUrl := "https://github.com/picocss/pico/archive/refs/tags/v1.5.13.zip"
 picoCssZipPath := "build/picocss.zip"
 picoCssFilesPath := "deps/picocss"
 
