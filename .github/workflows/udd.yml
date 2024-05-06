@@ -16,7 +16,7 @@ jobs:
           deno-version: 1.43.1
       - uses: extractions/setup-just@dd310ad5a97d8e7b41793f8ef055398d51ad4de6 # v2.0.0
         with:
-          just-version: 1.23.0
+          just-version: 1.25.2
       - name: Update dependencies
         run: just update-deps
       - name: Create Pull Request
