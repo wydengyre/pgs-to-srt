@@ -1081,15 +1081,5 @@
     "https://deno.land/x/zod@v3.23.6/locales/en.ts": "a7a25cd23563ccb5e0eed214d9b31846305ddbcdb9c5c8f508b108943366ab4c",
     "https://deno.land/x/zod@v3.23.6/mod.ts": "ec6e2b1255c1a350b80188f97bd0a6bac45801bb46fc48f50b9763aa66046039",
     "https://deno.land/x/zod@v3.23.6/types.ts": "0fe4cd503323c43253d14ae75612358d0ca50dadaf255732defedc6ae2f1b1af"
-  },
-  "workspace": {
-    "packageJson": {
-      "dependencies": [
-        "npm:@sentry/browser@^7.113.0",
-        "npm:@tsconfig/recommended@^1.0.6",
-        "npm:@types/gtag.js@^0.0.19",
-        "npm:typescript@^5.4.5"
-      ]
-    }
   }
 }
