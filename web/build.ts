@@ -6,7 +6,6 @@ import { workerBuildPath } from "./build-lib.ts";
 
 const INDIVIDUAL_FILES_TO_COPY = [
   "./pico.classless.min.css",
-  "./pico.classless.min.css.map",
   "./favicon.ico",
   "../deps/tesseract-wasm/tesseract-core.wasm",
   "../deps/tesseract-wasm/tesseract-core-fallback.wasm",
