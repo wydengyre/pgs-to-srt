@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Wyden and Gyre, LLC
+// Copyright (C) 2024 Wyden and Gyre, LLC
 import { writeAll } from "std/io/mod.ts";
 import { Progress } from "../lib/pipeline.ts";
 

@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Wyden and Gyre, LLC
+// Copyright (C) 2024 Wyden and Gyre, LLC
 import { render } from "./progress.ts";
 import { Buffer } from "std/io/buffer.ts";
 import { assertEquals } from "std/testing/asserts.ts";

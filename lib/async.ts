@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Wyden and Gyre, LLC
+// Copyright (C) 2024 Wyden and Gyre, LLC
 import { deadline } from "std/async/deadline.ts";
 import { pooledMap } from "std/async/pool.ts";
 

@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Wyden and Gyre, LLC
+// Copyright (C) 2024 Wyden and Gyre, LLC
 import { Subtitle } from "./ocr.ts";
 import { enumerate } from "./stream.ts";
 

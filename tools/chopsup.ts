@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Wyden and Gyre, LLC
+// Copyright (C) 2024 Wyden and Gyre, LLC
 import { parse } from "../lib/parse.ts";
 import { packetize, pgsSchema } from "../lib/transform.ts";
 import { writeAll } from "std/streams/write_all.ts";
