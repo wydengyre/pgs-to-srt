@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.6",
-    "@types/gtag.js": "^0.0.19",
+    "@types/gtag.js": "^0.0.20",
     "typescript": "^5.4.5"
   }
 }
