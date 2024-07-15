@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # master
-      - uses: denoland/setup-deno@f99b7edee36540f7183c45aad62fbb93d6d41d9d # v1.2.0
+      - uses: denoland/setup-deno@5fae568d37c3b73449009674875529a984555dd1 # v1.3.0
         with:
           deno-version: 1.43.1
       - uses: extractions/setup-just@dd310ad5a97d8e7b41793f8ef055398d51ad4de6 # v2.0.0
