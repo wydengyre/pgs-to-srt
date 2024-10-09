@@ -35,7 +35,7 @@ jobs:
         run: just ci
 
       - name: Archive artifact
-        uses: actions/upload-artifact@604373da6381bf24206979c74d06a550515601b9 #v3.2.1
+        uses: actions/upload-artifact@84480863f228bb9747b473957fcc9e309aa96097 #v3.2.1
         with:
           name: pgs-to-srt deno cli
           path: dist/deno/pgs-to-srt.zip
