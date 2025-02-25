@@ -10,6 +10,7 @@ export type Config = {
   workerPath: string;
   outWriter: Deno.Writer;
   errWriter: Deno.Writer;
+  outlineFlag: string;
 };
 
 export async function runConvert(
@@ -19,15 +20,25 @@ export async function runConvert(
   const [wasmBinary, trainedData] = await Promise.all([
     Deno.readFile(config.wasmPath),
     Deno.readFile(config.trainedDataPath),
+    config.outlineFlag,
   ]);
 
   const workerUrl = toFileUrl(config.workerPath);
-  const srtIter = pipeline(sup, workerUrl, wasmBinary, trainedData);
+  const srtIter = pipeline(sup, workerUrl, wasmBinary, trainedData, config.outlineFlag);
   const te = new TextEncoder();
   let next = await srtIter.next();
   while (!next.done) {
     const [{ completed, total }, sub] = next.value;
-    const bytes = te.encode(`${sub}\n`);
+
+    //Check for an remove "|"" which is almost always supposed to be "I"
+    let arraybuf = Array(sub.length)
+    for (let i = 0; i < arraybuf.length; i++){
+      arraybuf[i] = (sub[i] == "|")?"I":sub[i];
+    }
+    let bufstring = arraybuf.join("");
+
+    const bytes = te.encode(`${bufstring}\n`);
+
     await writeAll(config.outWriter, bytes);
     await render(config.errWriter, { completed, total });
     next = await srtIter.next();
@@ -43,3 +54,4 @@ export async function runConvert(
     await writeAll(config.errWriter, bytes);
   }
 }
+

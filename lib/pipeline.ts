@@ -15,11 +15,12 @@ export async function* pipeline(
   workerURL: URL,
   wasmBinary: Uint8Array,
   trainedData: Uint8Array,
+  outlineFlag: string,
 ): AsyncGenerator<[Progress, string], number[]> {
   const result = parse(pgs);
   const basicParsed = pgsSchema.parse(result);
   const parsedSegments = basicParsed.segment;
-  const groupedSegments = packetize(parsedSegments);
+  const groupedSegments = packetize(parsedSegments, outlineFlag);
   const unrendered = iterOds(groupedSegments);
   const [toBeRendered, toCount] = tee(unrendered, 2);
   let total = 0;
@@ -37,3 +38,4 @@ export async function* pipeline(
   }
   return next.value;
 }
+

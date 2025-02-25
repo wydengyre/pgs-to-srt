@@ -9,11 +9,12 @@ export async function extractImage(
   sup: Uint8Array,
   imageIndex: number,
   outWriter: Deno.Writer,
+  outlineFlag: string,
 ) {
   const result = parse(sup);
   const basicParsed = pgsSchema.parse(result);
   const parsedSegments = basicParsed.segment;
-  const groupedSegments = packetize(parsedSegments);
+  const groupedSegments = packetize(parsedSegments, outlineFlag);
   const unrendered = iterOds(groupedSegments);
   // now get ods number whatever
   let subIndex = 1;
@@ -35,3 +36,4 @@ export async function extractImage(
   });
   await writeAll(outWriter, bmp.data);
 }
+
