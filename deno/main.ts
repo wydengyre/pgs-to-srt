@@ -39,14 +39,13 @@ async function main(
       relativePath(buildConfig.workerBundle),
     ];
 
-  const [trainedDataPathOrIndex, supPath] = args;
+  const [trainedDataPathOrIndex, supPath, outlineFlag] = args;
 
   const supReader = supPath === "-" ? inReader : await Deno.open(supPath);
 
   // it feels kind of stupid that we don't support streaming this,
   // but these files tend to be in the tens of megabytes
   const sup = await readAll(supReader);
-
   const index = parseInt(trainedDataPathOrIndex, 10);
   return isNaN(index)
     ? runConvert(sup, {
@@ -55,8 +54,9 @@ async function main(
       workerPath,
       outWriter,
       errWriter,
+      outlineFlag,
     })
-    : extractImage(sup, index, outWriter);
+    : extractImage(sup, index, outWriter, outlineFlag);
 }
 
 function isDev(): boolean {
@@ -69,3 +69,4 @@ function relativePath(p: string): string {
   const mainDir = path.dirname(path.fromFileUrl(Deno.mainModule));
   return path.join(mainDir, p);
 }
+
