@@ -3,7 +3,7 @@ import { iterOds, packetize, pgsSchema } from "../lib/transform.ts";
 import { parse } from "../lib/parse.ts";
 import { render } from "../lib/render.ts";
 import * as bitmap from "../lib/bitmap.ts";
-import { writeAll } from "std/io/mod.ts";
+import { writeAll } from "jsr:@std/io@^0.225.2";
 
 export async function extractImage(
   sup: Uint8Array,

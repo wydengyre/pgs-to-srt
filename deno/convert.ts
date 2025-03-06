@@ -1,8 +1,8 @@
 // Copyright (C) 2024 Wyden and Gyre, LLC
 import { pipeline } from "../lib/pipeline.ts";
-import { writeAll } from "std/io/mod.ts";
+import { writeAll } from "jsr:@std/io@^0.225.2";
 import { render } from "./progress.ts";
-import { toFileUrl } from "std/path/mod.ts";
+import { toFileUrl } from "jsr:@std/path@^1.0.8";
 
 export type Config = {
   trainedDataPath: string;

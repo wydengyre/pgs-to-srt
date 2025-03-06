@@ -1,7 +1,7 @@
 // Copyright (C) 2024 Wyden and Gyre, LLC
 import { parse } from "./parse.ts";
 import { iterOds, packetize, pgsSchema } from "./transform.ts";
-import { tee } from "std/async/tee.ts";
+import { tee } from "jsr:@std/async@^1.0.10";
 import { ocr } from "./ocr.ts";
 import { srt } from "./srt.ts";
 

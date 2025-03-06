@@ -1,8 +1,8 @@
 // Copyright (C) 2024 Wyden and Gyre, LLC
-import { readAll } from "std/io/mod.ts";
+import { readAll } from "jsr:@std/io@^0.225.2";
 import { extractImage } from "./extract-image.ts";
 import { runConvert } from "./convert.ts";
-import * as path from "std/path/mod.ts";
+import * as path from "jsr:@std/path@^1.0.8";
 import buildConfig from "./build.json" with { type: "json" };
 import devConfig from "./conf.dev.json" with { type: "json" };
 
@@ -31,7 +31,6 @@ async function main(
   if (args.length < 2) {
     fail();
   }
-
   const [wasmPath, workerPath] = isDev()
     ? [relativePath(devConfig.wasmPath), relativePath(devConfig.workerPath)]
     : [

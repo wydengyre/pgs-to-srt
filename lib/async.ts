@@ -1,6 +1,6 @@
 // Copyright (C) 2024 Wyden and Gyre, LLC
-import { deadline } from "std/async/deadline.ts";
-import { pooledMap } from "std/async/pool.ts";
+import { deadline } from "jsr:@std/async@^1.0.10";
+import { pooledMap } from "jsr:@std/async@^1.0.10";
 
 export const ERROR_WHILE_MAPPING_MESSAGE = "Threw while mapping.";
 

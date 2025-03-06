@@ -1,5 +1,5 @@
 // Copyright (C) 2024 Wyden and Gyre, LLC
-import { tee } from "std/async/tee.ts";
+import { tee } from "jsr:@std/async@^1.0.10";
 import { Pool } from "./async.ts";
 import { Unrendered } from "./transform.ts";
 

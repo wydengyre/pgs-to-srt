@@ -1,6 +1,6 @@
 // Copyright (C) 2024 Wyden and Gyre, LLC
 import { SegmentTypes } from "./parse.ts";
-import { z } from "zod";
+import { z } from "https://deno.land/x/zod/mod.ts";
 
 export type Unrendered = {
   startTime: number;
