@@ -71,9 +71,9 @@ export function render(
   return { width, height, rgba: imgData };
 }
 
-export function expand({ width, height, rgba }: Image): Image {
+export function expand({ width, height, rgba }: Image, outlineFlag: string): Image {
   const EXPAND_PIXELS = 50;
-  const WHITE = 0xffffffff;
+  const WHITE = (outlineFlag == "outline")? 0x00000000 : 0xffffffff;
 
   const newHeight = height + 2 * EXPAND_PIXELS;
   const newWidth = width + 2 * EXPAND_PIXELS;

@@ -1,1 +1,8 @@
 deno run --allow-read --allow-write --allow-env --allow-net --allow-run bundle.ts 
+
+Also, you can run the script without bundling using 
+
+deno run --allow-read deno/main.ts ../eng.traineddata ../../../output.sup outline
+
+
+Just keep in mind that it's going to pull worker.js from build/deno/pgs-to-srt, so make sure to dump a bundled worker.js in there before trying to run it.

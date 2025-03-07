@@ -3,8 +3,8 @@ import { denoPlugins } from "jsr:@luca/esbuild-deno-loader@0.9";
 
 esbuild.build({
   plugins: [...denoPlugins()],
-  entryPoints: ["deno/main.ts"],
-  outdir: "<output>/<dir>/",
+  entryPoints: ["deno/main.ts","lib/worker.ts"],
+  outdir: "build/deno/pgs-to-srt",
   bundle: true,
   platform: "browser",
   format: "esm",

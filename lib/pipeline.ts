@@ -27,7 +27,7 @@ export async function* pipeline(
   for await (const _ of toCount) {
     total++;
   }
-  const ocrd = ocr(workerURL, wasmBinary, trainedData, toBeRendered);
+  const ocrd = ocr(workerURL, wasmBinary, trainedData, toBeRendered, outlineFlag);
   const srtIter = srt(ocrd);
   let next = await srtIter.next();
   let completed = 0;

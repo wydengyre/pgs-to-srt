@@ -16,10 +16,10 @@ export async function* ocr(
   wasmBinary: Uint8Array,
   trainedData: Uint8Array,
   unrendered: AsyncIterable<Unrendered>,
+  outlineFlag: string,
 ): AsyncIterableIterator<Subtitle> {
   const [unrendered1, unrendered2] = tee(unrendered);
   const iter = unrendered2[Symbol.asyncIterator]();
-
   // at the time of this comment, it was experimentally determined that 4
   // threads performs significantly better than 8 in Safari, with little
   // cost in Chrome and no notable cost in Firefox
@@ -31,6 +31,7 @@ export async function* ocr(
   const pool = await Pool.create<Unrendered, string>(
     workerSpecifier,
     { wasmBinary, trainedData },
+    outlineFlag,
     { threadCount, initDeadline }
   );
 
