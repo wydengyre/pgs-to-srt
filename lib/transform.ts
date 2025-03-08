@@ -103,9 +103,14 @@ function yCrCbAToRgba(y: number, cr: number, cb: number, a: number, outlineFlag:
   const gf = y1 - (cr * 0.5329093286) - (cb * 0.2132486143);
   const bf = y1 + (cb * 2.112401786);
 
-  const r = clampRound(rf);
-  const g = clampRound(gf);
-  const b = clampRound(bf);
+  //Clamp everything to black or white
+  const r = (gf > 128) ? 255 : 0;
+  const g = (gf > 128) ? 255 : 0;
+  const b = (gf > 128) ? 255 : 0;
+
+  //const r = clampRound(rf);
+  //const g = clampRound(gf);
+  //const b = clampRound(bf);
 
   let rtmp = 0;
   let gtmp = 0;
