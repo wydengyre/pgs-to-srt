@@ -3,17 +3,18 @@ import { iterOds, packetize, pgsSchema } from "../lib/transform.ts";
 import { parse } from "../lib/parse.ts";
 import { render } from "../lib/render.ts";
 import * as bitmap from "../lib/bitmap.ts";
-import { writeAll } from "std/io/mod.ts";
+import { writeAll } from "jsr:@std/io@^0.225.2";
 
 export async function extractImage(
   sup: Uint8Array,
   imageIndex: number,
   outWriter: Deno.Writer,
+  outlineFlag: string,
 ) {
   const result = parse(sup);
   const basicParsed = pgsSchema.parse(result);
   const parsedSegments = basicParsed.segment;
-  const groupedSegments = packetize(parsedSegments);
+  const groupedSegments = packetize(parsedSegments, outlineFlag);
   const unrendered = iterOds(groupedSegments);
   // now get ods number whatever
   let subIndex = 1;
@@ -35,3 +36,4 @@ export async function extractImage(
   });
   await writeAll(outWriter, bmp.data);
 }
+
