@@ -47,6 +47,7 @@ async function init(
   { trainedData, wasmBinary }: {
     trainedData: Uint8Array;
     wasmBinary: Uint8Array;
+    outlineFlag: string;
   },
 ): Promise<void> {
   const emscriptenModuleOptions = { print: logToStdout, printErr: logToStderr };
@@ -58,12 +59,11 @@ async function init(
   engine.loadModel(trainedData);
 }
 
-function recognize({ pds, ods }: { pds: Uint32Array; ods: PacketOds }) {
+function recognize({ pds, ods, outlineFlag }: { pds: Uint32Array; ods: PacketOds; outlineFlag: string }) {
   const rendered = render(ods, pds);
-  const expanded = expand(rendered);
+  const expanded = expand(rendered, outlineFlag);
   const { width, height } = expanded;
   const data = imageToLittleEndian(expanded);
-
   // actually typing this with ImageData causes weird explosions
   const imageData = { width, height, data };
   engine.loadImage(imageData);

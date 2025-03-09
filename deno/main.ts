@@ -1,8 +1,8 @@
 // Copyright (C) 2024 Wyden and Gyre, LLC
-import { readAll } from "std/io/mod.ts";
+import { readAll } from "jsr:@std/io@^0.225.2";
 import { extractImage } from "./extract-image.ts";
 import { runConvert } from "./convert.ts";
-import * as path from "std/path/mod.ts";
+import * as path from "jsr:@std/path@^1.0.8";
 import buildConfig from "./build.json" with { type: "json" };
 import devConfig from "./conf.dev.json" with { type: "json" };
 
@@ -31,7 +31,6 @@ async function main(
   if (args.length < 2) {
     fail();
   }
-
   const [wasmPath, workerPath] = isDev()
     ? [relativePath(devConfig.wasmPath), relativePath(devConfig.workerPath)]
     : [
@@ -39,14 +38,13 @@ async function main(
       relativePath(buildConfig.workerBundle),
     ];
 
-  const [trainedDataPathOrIndex, supPath] = args;
+  const [trainedDataPathOrIndex, supPath, outlineFlag] = args;
 
   const supReader = supPath === "-" ? inReader : await Deno.open(supPath);
 
   // it feels kind of stupid that we don't support streaming this,
   // but these files tend to be in the tens of megabytes
   const sup = await readAll(supReader);
-
   const index = parseInt(trainedDataPathOrIndex, 10);
   return isNaN(index)
     ? runConvert(sup, {
@@ -55,8 +53,9 @@ async function main(
       workerPath,
       outWriter,
       errWriter,
+      outlineFlag,
     })
-    : extractImage(sup, index, outWriter);
+    : extractImage(sup, index, outWriter, outlineFlag);
 }
 
 function isDev(): boolean {
@@ -69,3 +68,4 @@ function relativePath(p: string): string {
   const mainDir = path.dirname(path.fromFileUrl(Deno.mainModule));
   return path.join(mainDir, p);
 }
+
