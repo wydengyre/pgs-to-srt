@@ -1,6 +1,6 @@
 // Copyright (C) 2024 Wyden and Gyre, LLC
 import { SegmentTypes } from "./parse.ts";
-import { z } from "zod";
+import { z } from "https://deno.land/x/zod/mod.ts";
 
 export type Unrendered = {
   startTime: number;
@@ -84,15 +84,15 @@ export type Packet = z.infer<typeof pcsSchema> & {
 };
 
 const PALETTE_LENGTH = 255;
-function mkRgbaPalette(p: PgsPalette): Uint32Array {
+function mkRgbaPalette(p: PgsPalette, outlineFlag: string): Uint32Array {
   const out = new Uint32Array(PALETTE_LENGTH);
   for (const { id, y, cr, cb, a } of p) {
-    out[id] = yCrCbAToRgba(y, cr, cb, a);
+    out[id] = yCrCbAToRgba(y, cr, cb, a, outlineFlag);
   }
   return out;
 }
 
-function yCrCbAToRgba(y: number, cr: number, cb: number, a: number): number {
+function yCrCbAToRgba(y: number, cr: number, cb: number, a: number, outlineFlag: string): number {
   y -= 16.0;
   cb -= 128.0;
   cr -= 128.0;
@@ -103,21 +103,55 @@ function yCrCbAToRgba(y: number, cr: number, cb: number, a: number): number {
   const gf = y1 - (cr * 0.5329093286) - (cb * 0.2132486143);
   const bf = y1 + (cb * 2.112401786);
 
-  const r = clampRound(rf);
-  const g = clampRound(gf);
-  const b = clampRound(bf);
+  //Clamp everything to black or white
+  const r = (gf > 128) ? 255 : 0;
+  const g = (gf > 128) ? 255 : 0;
+  const b = (gf > 128) ? 255 : 0;
 
-  // invert colors
-  const rInvert = 255 - r;
-  const gInvert = 255 - g;
-  const bInvert = 255 - b;
+  //const r = clampRound(rf);
+  //const g = clampRound(gf);
+  //const b = clampRound(bf);
+
+  let rtmp = 0;
+  let gtmp = 0;
+  let btmp = 0;
+  // invert colors or don't
+  if (outlineFlag == "outline") {
+    rtmp = r;
+    gtmp = g;
+    btmp = b;
+  }
+  else {
+    rtmp = 255 - r;
+    gtmp = 255 - g;
+    btmp = 255 - b;
+  }
+
+  const rInvert = rtmp;
+  const gInvert = gtmp;
+  const bInvert = btmp;
 
   // convert alpha channel to white
   const aPercent = (255 - a) / 255;
-  const rWhite = clampRound(rInvert + ((255 - rInvert) * aPercent));
-  const gWhite = clampRound(gInvert + ((255 - gInvert) * aPercent));
-  const bWhite = clampRound(bInvert + ((255 - bInvert) * aPercent));
 
+  let rwhitetmp = 0;
+  let gwhitetmp = 0;
+  let bwhitetmp = 0;
+
+  if (outlineFlag == "outline") {
+    rwhitetmp = clampRound(aPercent + rInvert);
+    gwhitetmp = clampRound(aPercent + gInvert);
+    bwhitetmp = clampRound(aPercent + bInvert);
+  }
+  else {
+    rwhitetmp = clampRound(rInvert + ((255 - rInvert) * aPercent));
+    gwhitetmp = clampRound(gInvert + ((255 - gInvert) * aPercent));
+    bwhitetmp = clampRound(bInvert + ((255 - bInvert) * aPercent));
+  }
+
+  const rWhite = rwhitetmp;
+  const gWhite = gwhitetmp;
+  const bWhite = bwhitetmp;
   return ((rWhite & 0xff) << 24) | ((gWhite & 0xff) << 16) |
     ((bWhite & 0xff) << 8) | 0xff;
 }
@@ -140,9 +174,10 @@ export async function* iterOds(
 
 export async function* packetize(
   segs: Iterable<PgsSegment>,
+  outlineFlag: string,
 ): AsyncIterableIterator<Packet> {
   const schematized = schematize(segs);
-  yield* packetizeSegments(schematized);
+  yield* packetizeSegments(schematized, outlineFlag);
 }
 
 async function* schematize(
@@ -173,6 +208,7 @@ async function* schematize(
 
 async function* packetizeSegments(
   segs: AsyncIterable<Segment>,
+  outlineFlag: string,
 ): AsyncIterableIterator<Packet> {
   let currentSegment: Packet | null = null;
   for await (const seg of segs) {
@@ -206,7 +242,7 @@ async function* packetizeSegments(
         break;
       }
       case $pds: {
-        const rgbaPalette = mkRgbaPalette(seg.palette);
+        const rgbaPalette = mkRgbaPalette(seg.palette, outlineFlag);
         currentSegment!.pds.set(seg.id, rgbaPalette);
         break;
       }
@@ -239,3 +275,4 @@ async function* packetizeSegments(
   }
   return null;
 }
+
