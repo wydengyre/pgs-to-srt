@@ -5,7 +5,7 @@
   "main": "main.ts",
   "author": "Matthew Leon <matt@wydengyre.com>",
   "dependencies": {
-    "@sentry/browser": "^9.14.0"
+    "@sentry/browser": "^9.15.0"
   },
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.8",
