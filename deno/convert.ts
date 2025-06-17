@@ -1,8 +1,8 @@
 // Copyright (C) 2024 Wyden and Gyre, LLC
 import { pipeline } from "../lib/pipeline.ts";
-import { writeAll } from "std/io/mod.ts";
+import { writeAll } from "jsr:@std/io@^0.225.2";
 import { render } from "./progress.ts";
-import { toFileUrl } from "std/path/mod.ts";
+import { toFileUrl } from "jsr:@std/path@^1.0.8";
 
 export type Config = {
   trainedDataPath: string;
@@ -10,6 +10,7 @@ export type Config = {
   workerPath: string;
   outWriter: Deno.Writer;
   errWriter: Deno.Writer;
+  outlineFlag: string;
 };
 
 export async function runConvert(
@@ -19,15 +20,25 @@ export async function runConvert(
   const [wasmBinary, trainedData] = await Promise.all([
     Deno.readFile(config.wasmPath),
     Deno.readFile(config.trainedDataPath),
+    config.outlineFlag,
   ]);
 
   const workerUrl = toFileUrl(config.workerPath);
-  const srtIter = pipeline(sup, workerUrl, wasmBinary, trainedData);
+  const srtIter = pipeline(sup, workerUrl, wasmBinary, trainedData, config.outlineFlag);
   const te = new TextEncoder();
   let next = await srtIter.next();
   while (!next.done) {
     const [{ completed, total }, sub] = next.value;
-    const bytes = te.encode(`${sub}\n`);
+
+    //Check for an remove "|"" which is almost always supposed to be "I"
+    let arraybuf = Array(sub.length)
+    for (let i = 0; i < arraybuf.length; i++){
+      arraybuf[i] = (sub[i] == "|")?"I":sub[i];
+    }
+    let bufstring = arraybuf.join("");
+
+    const bytes = te.encode(`${bufstring}\n`);
+
     await writeAll(config.outWriter, bytes);
     await render(config.errWriter, { completed, total });
     next = await srtIter.next();
@@ -43,3 +54,4 @@ export async function runConvert(
     await writeAll(config.errWriter, bytes);
   }
 }
+
