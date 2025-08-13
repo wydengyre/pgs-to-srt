@@ -1,11 +1,11 @@
 {
   "imports": {
     "bitmap": "https://deno.land/x/bitmap@v1.0.1/mod.ts",
-    "dnt": "https://deno.land/x/dnt@0.39.0/mod.ts",
-    "esbuild": "https://deno.land/x/esbuild@v0.19.12/mod.js",
-    "esbuild_plugin_deno_loader": "https://deno.land/x/esbuild_deno_loader@0.8.5/mod.ts",
-    "iso6393": "https://esm.sh/iso-639-3@3.0.1",
+    "dnt": "https://deno.land/x/dnt@0.40.0/mod.ts",
+    "esbuild": "https://deno.land/x/esbuild@v0.25.9/mod.js",
+    "esbuild_plugin_deno_loader": "https://deno.land/x/esbuild_deno_loader@0.9.0/mod.ts",
+    "iso6393": "https://esm.sh/iso-639-3@0.0.1/",
     "std/": "https://deno.land/std@0.224.0/",
-    "zod": "https://deno.land/x/zod@v3.23.8/mod.ts"
+    "zod": "https://deno.land/x/zod@v3.25/mod.ts"
   }
 }
