@@ -1,6 +1,6 @@
 // Copyright (C) 2024 Wyden and Gyre, LLC
-import { deadline } from "std/async/deadline.ts";
-import { pooledMap } from "std/async/pool.ts";
+import { deadline } from "jsr:@std/async@^1.0.10";
+import { pooledMap } from "jsr:@std/async@^1.0.10";
 
 export const ERROR_WHILE_MAPPING_MESSAGE = "Threw while mapping.";
 
@@ -23,7 +23,7 @@ type ThreadWithStatus<I, O> = { thread: Thread<I, O>; busy: boolean };
 export class Pool<I, O> {
   readonly #threads: readonly ThreadWithStatus<I, O>[];
   readonly #jobDeadline: number;
-
+  outlineFlag: string;
   private constructor(threads: readonly Thread<I, O>[], jobDeadline: number) {
     this.#threads = threads.map((thread) => ({ thread, busy: false }));
     this.#jobDeadline = jobDeadline;
@@ -32,6 +32,7 @@ export class Pool<I, O> {
   static async create<I, O>(
     workerSpecifier: string | URL,
     initData: unknown,
+    outlineFlag: string,
     poolOptionOverrides?: Partial<PoolOptions>,
   ): Promise<Pool<I, O>> {
     const { threadCount, initDeadline, jobDeadline } = Object.assign({
@@ -49,7 +50,7 @@ export class Pool<I, O> {
     try {
       await deadline((async () => {
         for (; i < threadCount; i++) {
-          threads[i] = await Thread.spawn<I, O>(workerSpecifier, initData);
+          threads[i] = await Thread.spawn<I, O>(workerSpecifier, initData, outlineFlag);
         }
       })(), initDeadline);
     } catch (e: unknown) {
@@ -66,7 +67,7 @@ export class Pool<I, O> {
     return new this(threads, jobDeadline);
   }
 
-  async *process(is: AsyncIterable<I>): AsyncIterable<O> {
+  async *process(is: AsyncIterable<I>, outlineFlag: string): AsyncIterable<O> {
     const iteratorFn = async (i: I): Promise<O> => {
       const availableThread = this.availableThread()!;
       availableThread.busy = true;
@@ -101,6 +102,7 @@ export class Thread<I, O> {
   static spawn<I, O>(
     workerSpecifier: string | URL,
     initMessage: unknown,
+    outlineFlag: string,
   ): Promise<Thread<I, O>> {
     const w = new Worker(workerSpecifier, { type: "module" });
     const p = new Promise<Thread<I, O>>((resolve, reject) => {
@@ -108,6 +110,7 @@ export class Thread<I, O> {
       w.onerror = reject;
       w.onmessageerror = reject;
     });
+    self.outlineFlag = outlineFlag;
     w.postMessage(initMessage);
     return p;
   }
@@ -118,6 +121,7 @@ export class Thread<I, O> {
       this.#worker.onerror = reject;
       this.#worker.onmessageerror = reject;
     });
+    data.outlineFlag = self.outlineFlag;
     this.#worker.postMessage(data);
     return p;
   }
